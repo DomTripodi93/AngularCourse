@@ -1,0 +1,9 @@
+h2 {
+    /* background-color: rgb(86, 167, 173); */
+}
+
+.blue-back {
+    background-color: rgb(86, 167, 173);
+    margin: 5px 10px 15px 20px;
+    padding: 5px 10px 15px 20px;
+}
