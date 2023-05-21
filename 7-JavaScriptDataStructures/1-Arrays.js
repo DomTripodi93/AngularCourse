@@ -5,7 +5,8 @@ let myFirstArr = [
     4.5,
     new Date(),
     null,
-    undefined
+    undefined,
+    ["nested", "array", 7]
 ];
 
 console.log(myFirstArr);

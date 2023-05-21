@@ -8,6 +8,8 @@ let myFirstArr = [
     undefined
 ];
 
+let copyArr = myFirstArr;
+
 console.log(myFirstArr);
 console.log(myFirstArr[3]);
 console.log(myFirstArr.length);
@@ -24,6 +26,7 @@ myFirstArr.push("Added Value")
 
 console.log("Added to:")
 console.log(myFirstArr);
+console.log(copyArr);
 console.log("\n");
 
 
