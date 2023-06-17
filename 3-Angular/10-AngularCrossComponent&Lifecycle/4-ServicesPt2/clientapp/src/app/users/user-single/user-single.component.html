@@ -1,0 +1,21 @@
+<div *ngIf="!editMode">
+    <!-- {{(index + 1) + ": " + user}} -->
+    {{user}}
+     -
+    <!-- <button (click)="removeUser.emit(index)"> -->
+    <button (click)="removeUser()">
+        Remove
+    </button>
+    <button (click)="toggleEdit()">
+        Edit
+    </button>
+</div>
+<div *ngIf="editMode">
+    <input [(ngModel)]="userForEdit"/>
+    <button *ngIf="editMode" (click)="toggleEdit()">
+        Cancel Edit
+    </button>
+    <button *ngIf="editMode" (click)="submitEdit()">
+        Submit Edit
+    </button>
+</div>

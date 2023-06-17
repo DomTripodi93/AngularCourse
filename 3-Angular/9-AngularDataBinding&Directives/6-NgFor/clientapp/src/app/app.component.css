@@ -1,0 +1,8 @@
+.context-menu {
+    border: solid black 1px;
+}
+
+.page {
+    padding: 20px;
+    /* height: 100vh; */
+}

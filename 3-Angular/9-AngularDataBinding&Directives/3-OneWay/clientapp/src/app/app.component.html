@@ -1,0 +1,22 @@
+
+{{title}}
+
+<!-- <button (click)="clickMethod()"> -->
+<button (click)="clickMethod($event)">
+    Click Me!
+</button>
+
+Clicked {{clicked}} times!
+
+<!-- <input [value]="clicked" /> -->
+<!-- <input [(ngModel)]="clicked" /> -->
+<input [(ngModel)]="clicked" type="number"/>
+<br/>
+
+
+<!-- <button (dblclick)="doubleClickMethod()"> -->
+<button (dblclick)="doubleClickMethod($event)">
+    Double Click Me!
+</button>
+
+Double-clicked {{doubleClicked}} times!

@@ -1,0 +1,24 @@
+.context-menu {
+    border: solid black 1px;
+    position: absolute;
+    background-color: rgb(234, 228, 228);
+}
+
+.page {
+    padding: 20px;
+    /* height: 100vh; */
+}
+
+.mouse-over-block {
+    background-color: aquamarine;
+    height: 200px;
+    width: 400px;
+}
+
+.mouse-over-block-active {
+    background-color: blue;
+    height: 200px;
+    width: 400px;
+    cursor: pointer;
+}
+

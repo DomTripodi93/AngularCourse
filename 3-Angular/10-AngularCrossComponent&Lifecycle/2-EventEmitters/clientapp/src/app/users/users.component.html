@@ -1,0 +1,10 @@
+<!-- <div *ngFor="let user of userList; let index = index">
+    {{(index + 1) + ": " + user}}
+</div> -->
+
+<!-- <ol *ngFor="let user of userList; let index = index"> -->
+<ol>
+    <li *ngFor="let user of userList; let index = index">
+        <app-user-single [user]="user" [index]="index" (removeUser)="removeUser($event)"></app-user-single>
+    </li>
+</ol>
