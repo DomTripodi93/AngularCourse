@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+body{
+    margin: 0;
+}
+
+.heading{
+    width: 100%;
+    background-color: rgb(41, 37, 120);
+    color: white;
+    padding: 10px;
+}
+
+.centered{
+    text-align: center;
+}
+
+.middle{
+    margin: auto;
+}
+
+.grid50{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.grid50-dynamic{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.float-right {
+    float: right;
+}
+
+@media only screen and (max-width: 715px){
+    .grid50-dynamic{
+        display: grid;
+        grid-template-columns: 100%;
+    }
+}

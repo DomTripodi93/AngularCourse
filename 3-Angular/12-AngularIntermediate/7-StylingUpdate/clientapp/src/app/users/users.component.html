@@ -1,0 +1,9 @@
+<!-- <ol>
+    <li *ngFor="let user of userServ.userList; let index = index">
+        <app-user-single [user]="user" [index]="index"></app-user-single>
+    </li>
+</ol> -->
+
+<div *ngFor="let user of userServ.userList; let index = index" class="user-page-width user-item">
+    <app-user-single [user]="user" [index]="index"></app-user-single>
+</div>

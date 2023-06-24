@@ -1,19 +1,18 @@
-<div (click)="hideContextMenu()" class="page">
+<div class="heading">
     {{title}}
+</div>
+<div (click)="hideContextMenu()" class="page">
+    <br/>
 
-    <!-- <button (click)="clickMethod()"> -->
-    <button (click)="clickMethod($event)">
+    <!-- <button (click)="clickMethod($event)">
         Click Me!
     </button>
     
     Clicked {{clicked}} times!
 
-    <!-- <input [value]="clicked" /> -->
-    <!-- <input [(ngModel)]="clicked" /> -->
     <input [(ngModel)]="clicked" type="number"/>
     <br/>
     
-    <!-- <button (dblclick)="doubleClickMethod()"> -->
     <button (dblclick)="doubleClickMethod($event)">
         Double Click Me!
     </button>
@@ -23,6 +22,7 @@
     <div *ngIf="someValue > 12">
         Show This text
     </div>
+
     
     <div *ngIf="clicked > 5">
         Clicked more than 5 times!
@@ -48,12 +48,6 @@
     </div>
 
 
-    <!--
-    <div class="mouse-over-block"
-        [ngStyle]="clicked > 5 ? {'background-color': 'blue', 'cursor': 'pointer'} : {} " 
-    -->
-    <!-- [ngStyle]="toolTipOptions.showToolTip ? {'background-color': 'blue', 'cursor': 'pointer'} : {} "  -->
-    <!-- <div [ngClass]="toolTipOptions.showToolTip ? 'mouse-over-block-active' : 'mouse-over-block' " -->
     <div [ngClass]="clicked > 5 ? 'mouse-over-block-active' : 'mouse-over-block' "
         (mouseenter)="onMouseMove($event, true)" 
         (mouseleave)="onMouseMove($event, false)"
@@ -66,7 +60,7 @@
         [style.top.px]="toolTipOptions.menuY">
         Here is the tooltip
     </div>
-    <br/>
+    <br/> -->
     <button (click)="toggleShowUsers()">
         {{showUsers ? "Hide" : "Show"}} Users
     </button>

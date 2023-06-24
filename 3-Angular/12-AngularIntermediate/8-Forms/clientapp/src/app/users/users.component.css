@@ -1,0 +1,23 @@
+.user-item{
+    border: solid black 3px;
+    background-color: rgb(218, 217, 217);
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7px;
+    margin-top: 7px;
+}
+
+.user-page-width{
+    width: 70vw;
+    max-width: 800px;
+    min-width: 660px;
+    /* margin: auto; */
+}
+
+
+@media only screen and (max-width: 715px){
+    .user-page-width{
+        width: 85vw;
+        min-width: 350px;
+    }
+}
