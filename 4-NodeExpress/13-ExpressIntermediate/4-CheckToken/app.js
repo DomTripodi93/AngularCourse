@@ -63,7 +63,7 @@ function getSingleUser(req, res) {
         // let singleUser = userList.filter(record =>{
         //     return record.userId === req.params.userId
         // })[0]
-        let singleUser = getUserById(userList, req.params.userId);
+        let singleUser = getUserById(userList, +req.params.userId);
         res.send(singleUser);
     });
 }
@@ -149,7 +149,7 @@ function writeFile(updatedData, fileName) {
     })
 }
 
-function getUserById(userList, userId) {
+function getUserById(userList, +userId) {
     return userList.filter(record => {
         return record.userId === userId
     })[0]
@@ -163,7 +163,7 @@ function postRegistration(req, res) {
             let salt = crypto.randomBytes(128).toString('base64');
             getHash(userForRegister.auth.password, salt).then(hash => {
                 const user = {
-                    userName: userForRegister.auth.userName,
+                    username: userForRegister.auth.username,
                     passwordSalt: salt,
                     passwordHash: hash
                 }
@@ -206,7 +206,7 @@ function postLogin(req, res) {
         let authList = JSON.parse(authFile);
         let userForAuth = req.body;
         let authFromFile = authList.filter(row => {
-            return row.userName = req.body.userName;
+            return row.username.toLowerCase() === req.body.username.toLowerCase();
         })[0]
         getHash(userForAuth.password, authFromFile.passwordSalt).then(attemptHash => {
             if (authFromFile.passwordHash === attemptHash) {
@@ -214,14 +214,14 @@ function postLogin(req, res) {
                 fs.readFile("users.json", { encoding: 'utf-8' }, (err, userFile) => {
                     let userList = JSON.parse(userFile);
                     let userFromFile = userList.filter(row => {
-                        return row.userName === userForAuth.userName;
+                        return row.username.toLowerCase() === userForAuth.username.toLowerCase();
                     })[0]
                     console.log(userFromFile)
 
                     const token = jwt.sign(
                         {
                             userId: userFromFile.userId,
-                            rootId: userFromFile.userName,
+                            rootId: userFromFile.username,
                             name: userFromFile.fullName,
                             favoriteColor: userFromFile.favoriteColor
                         },
@@ -252,7 +252,7 @@ function checkAuth(req, res, next) {
             const token = req.headers.authorization.split(" ")[1];
             const decodedToken = jwt.verify(token, tokenKey);
             req.userId = decodedToken.userId;
-            req.userName = decodedToken.userName;
+            req.username = decodedToken.username;
             req.fullName = decodedToken.fullName;
             next();
         } catch (error) {

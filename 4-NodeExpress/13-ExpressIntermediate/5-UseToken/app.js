@@ -6,9 +6,9 @@ const app = express();
 
 const tokenKey = "2359n1785fv1238f1-2358fc125!@#%F!@#5f12c53d2d1235"; //This is our token key
 
-app.use(express.json())
-
 app
+    .use(express.json())
+    .use("", setCORS)
     .get("/", (req, res) => {
         res.send("Hello Angular Devs!");
     })
@@ -19,7 +19,8 @@ app
         postLogin(req, res);
     })
 
-app.use("", checkAuth)
+app
+    .use("", checkAuth)
     .get("/user/users", (req, res) => {
         // const users = getUsers();
         // console.log(users)
@@ -49,6 +50,19 @@ app.use("", checkAuth)
 const server = app.listen(8080, () => {
     console.log("Listening on: http://localhost:8080")
 })
+
+function setCORS(req, res, next) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PATCH, PUT, DELETE, OPTIONS"
+    );
+    next();
+}
 
 // function getUsers() {
 function getUsers(res) {
@@ -96,7 +110,7 @@ function getSingleUserFromFile(userId) {
             //     return record.userId === req.params.userId
             // })[0]
             // let singleUser = getUserById(userList, req.params.userId)
-            let singleUser = getUserById(userList, userId)
+            let singleUser = getUserById(userList, +userId)
             // res.send(singleUser);
             resolve(singleUser);
         });
@@ -106,7 +120,7 @@ function getSingleUserFromFile(userId) {
 function getUsersSearch(req, res) {
     fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
         let userList = JSON.parse(fileResult);
-        let userListFiltered = userList.filter(record =>{
+        let userListFiltered = userList.filter(record => {
             return record.fullName.includes(req.params.fullName)
         })
         res.send(userListFiltered);
@@ -135,7 +149,7 @@ function editUser(req, res) {
         let userList = JSON.parse(fileResult);
         let userFromBody = req.body;
 
-        const userFromFile = getUserById(userList, req.body.userId)
+        const userFromFile = getUserById(userList, +req.body.userId)
         let userIndex = userList.indexOf(userFromFile);
         // console.log(userIndex)
 
@@ -171,6 +185,7 @@ function deleteUser(req, res) {
 // function writeUserFile(updatedData, res) {
 // function writeUserFile(updatedData) {
 function writeFile(updatedData, fileName) {
+    // console.log(updatedData)
     return new Promise(resolve => {
         // fs.writeFile("users.json", JSON.stringify(updatedData), (err) => {
         fs.writeFile(fileName + ".json", JSON.stringify(updatedData), (err) => {
@@ -195,17 +210,18 @@ function postRegistration(req, res) {
         let authList = JSON.parse(authFile);
         let userForRegister = req.body;
         if (userForRegister.auth.password === userForRegister.auth.passwordConfirm) {
+            // console.log(userForRegister)
             let salt = crypto.randomBytes(128).toString('base64');
             getHash(userForRegister.auth.password, salt).then(hash => {
                 const user = {
-                    userName: userForRegister.auth.userName,
+                    username: userForRegister.user.username,
                     passwordSalt: salt,
                     passwordHash: hash
                 }
                 authList.push(user);
                 writeFile(authList, "auth").then(() => {
                     let reqClone = { ...req };
-                    reqClone.body = req.body.userData;
+                    reqClone.body = req.body.user;
                     addNewUser(reqClone, res);
                 })
             })
@@ -241,7 +257,7 @@ function postLogin(req, res) {
         let authList = JSON.parse(authFile);
         let userForAuth = req.body;
         let authFromFile = authList.filter(row => {
-            return row.userName = req.body.userName;
+            return row.username.toLowerCase() === req.body.username.toLowerCase();
         })[0]
         getHash(userForAuth.password, authFromFile.passwordSalt).then(attemptHash => {
             if (authFromFile.passwordHash === attemptHash) {
@@ -249,14 +265,13 @@ function postLogin(req, res) {
                 fs.readFile("users.json", { encoding: 'utf-8' }, (err, userFile) => {
                     let userList = JSON.parse(userFile);
                     let userFromFile = userList.filter(row => {
-                        return row.userName === userForAuth.userName;
+                        return row.username.toLowerCase() === userForAuth.username.toLowerCase();
                     })[0]
-                    console.log(userFromFile)
 
                     const token = jwt.sign(
                         {
                             userId: userFromFile.userId,
-                            rootId: userFromFile.userName,
+                            rootId: userFromFile.username,
                             name: userFromFile.fullName,
                             favoriteColor: userFromFile.favoriteColor
                         },
@@ -273,6 +288,8 @@ function postLogin(req, res) {
                     });
                 })
             } else {
+                console.log(attemptHash)
+                console.log(authFromFile.passwordHash)
                 res.status(401).json({ message: "Unauthorized: Login Failed" });
             }
         })
@@ -287,7 +304,7 @@ function checkAuth(req, res, next) {
             const token = req.headers.authorization.split(" ")[1];
             const decodedToken = jwt.verify(token, tokenKey);
             req.userId = decodedToken.userId;
-            req.userName = decodedToken.userName;
+            req.username = decodedToken.username;
             req.fullName = decodedToken.fullName;
             next();
         } catch (error) {

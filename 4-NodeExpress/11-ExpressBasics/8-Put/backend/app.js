@@ -48,7 +48,7 @@ function getSingleUser(req, res) {
         // let singleUser = userList.filter(record =>{
         //     return record.userId === req.params.userId
         // })[0]
-        let singleUser = getUserById(userList, req.params.userId);
+        let singleUser = getUserById(userList, +req.params.userId);
         res.send(singleUser);
     });
 }
@@ -114,7 +114,7 @@ function writeFile(updatedData, fileName) {
     })
 }
 
-function getUserById(userList, userId) {
+function getUserById(userList, +userId) {
     return userList.filter(record => {
         return record.userId === userId
     })[0]

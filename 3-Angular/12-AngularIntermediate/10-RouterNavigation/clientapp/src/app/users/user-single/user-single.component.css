@@ -1,0 +1,21 @@
+.user-data-grid{
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+}
+
+
+.label-text {
+    font-weight: 600;
+}
+
+.field-space{
+    margin: 7px 17px 7px 17px;
+}
+
+.button-space{
+    margin: 0px 17px 0px 17px;
+}
+
+.input-position{
+    float: right;
+}

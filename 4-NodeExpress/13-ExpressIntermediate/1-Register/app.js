@@ -55,7 +55,7 @@ function getSingleUser(req, res) {
         // let singleUser = userList.filter(record =>{
         //     return record.userId === req.params.userId
         // })[0]
-        let singleUser = getUserById(userList, req.params.userId);
+        let singleUser = getUserById(userList, +req.params.userId);
         res.send(singleUser);
     });
 }
@@ -141,7 +141,7 @@ function writeFile(updatedData, fileName) {
     })
 }
 
-function getUserById(userList, userId) {
+function getUserById(userList, +userId) {
     return userList.filter(record => {
         return record.userId === userId
     })[0]
@@ -155,7 +155,7 @@ function postRegistration(req, res) {
             let salt = crypto.randomBytes(128).toString('base64');
             getHash(userForRegister.auth.password, salt).then(hash => {
                 const user = {
-                    userName: userForRegister.auth.userName,
+                    username: userForRegister.auth.username,
                     passwordSalt: salt,
                     passwordHash: hash
                 }

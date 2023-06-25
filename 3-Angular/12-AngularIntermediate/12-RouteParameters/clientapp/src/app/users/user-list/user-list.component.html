@@ -1,0 +1,11 @@
+<!-- <button (click)="navigateToTile()">Tile View</button> -->
+<h3>
+    Users:
+</h3>
+<div *ngFor="let user of userServ.userList; let index = index" 
+    class="user-page-width user-item pointer"
+    (click)="navigateToUserDetail(user.userId)">
+    <div class="field-space">
+        {{user.fullName}}
+    </div>
+</div>
