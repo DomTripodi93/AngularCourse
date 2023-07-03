@@ -1,0 +1,80 @@
+<div *ngIf="!userServ.editMode" 
+    [ngStyle]="customColorLocal" 
+    [ngClass]="singleUser ? 'inner-page-width border-box' : ''"
+    class="grid50-dynamic">
+    <div>
+        <div class="field-space flex">
+            <label class="label-text">
+                User Id:
+            </label>
+            <div class="float-right">
+                {{user.userId}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Username:
+            </label>
+            <div class="float-right">
+                {{user.username}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Full Name:
+            </label>
+            <div class="float-right">
+                {{user.fullName}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                City:
+            </label>
+            <div class="float-right">
+                {{user.city}}
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                Gender:
+            </label>
+            <div class="float-right">
+                {{user.gender}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Color:
+            </label>
+            <div class="float-right">
+                {{user.favoriteColor}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Animal:
+            </label>
+            <div class="float-right">
+                {{user.favoriteAnimal}}
+            </div>
+        </div>
+        <div *ngIf="authServ.userId === user.userId" class="grid50">
+            <button class="button-space" (click)="removeUser()">
+                Remove
+            </button>
+            <button class="button-space" (click)="userServ.toggleEdit(user)">
+                Edit
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="userServ.editMode">
+    <app-user-edit [singleUser]="singleUser"></app-user-edit>
+</div>
+
+<div *ngIf="singleUser && user.username">
+    <app-post-list [username]="user.username"></app-post-list>
+</div>

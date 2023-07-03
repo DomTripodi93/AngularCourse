@@ -55,7 +55,7 @@ export class UserService {
     ) { }
 
     getUsers() {
-        return this.http.get<User[]>("http://localhost:8080/user/users")
+        return this.http.get<User[]>("http://localhost:3000/user/users")
     }
 
     // editUser(fullName: string, index: number) {
@@ -64,10 +64,10 @@ export class UserService {
     }
 
     editUserInAPI(userForEdit: User) {
-        return this.http.put<User>("http://localhost:8080/user/userEdit", userForEdit)
+        return this.http.put<User>("http://localhost:3000/user/userEdit", userForEdit)
     }
 
     deleteUserInAPI(userId: number) {
-        return this.http.delete("http://localhost:8080/user/userDelete/" + userId)
+        return this.http.delete("http://localhost:3000/user/userDelete/" + userId)
     }
 }

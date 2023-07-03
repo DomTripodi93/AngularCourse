@@ -23,6 +23,6 @@ export class AuthService {
     ) { }
 
     postRegistration(registration: Registration) {
-        return this.http.post("http://localhost:8080/auth/registration", registration)
+        return this.http.post("http://localhost:3000/auth/registration", registration)
     }
 }

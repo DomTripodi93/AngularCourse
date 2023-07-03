@@ -47,8 +47,8 @@ app
         deleteUser(req, res);
     })
 
-const server = app.listen(8080, () => {
-    console.log("Listening on: http://localhost:8080")
+const server = app.listen(3000, () => {
+    console.log("Listening on: http://localhost:3000")
 })
 
 function setCORS(req, res, next) {
@@ -206,24 +206,32 @@ function getUserById(userList, userId) {
 }
 
 function postRegistration(req, res) {
-    fs.readFile("auth.json", { encoding: 'utf-8' }, (err, authFile) => {
-        let authList = JSON.parse(authFile);
-        let userForRegister = req.body;
-        if (userForRegister.auth.password === userForRegister.auth.passwordConfirm) {
-            // console.log(userForRegister)
-            let salt = crypto.randomBytes(128).toString('base64');
-            getHash(userForRegister.auth.password, salt).then(hash => {
-                const user = {
-                    username: userForRegister.user.username,
-                    passwordSalt: salt,
-                    passwordHash: hash
+    fs.readFile("users.json", { encoding: 'utf-8' }, (err, userFile) => {
+        let userList = JSON.parse(userFile);
+        let userMatches = userList.filter(record => {
+            return record.username === username;
+        })
+        if (userMatches.length === 0) {
+            fs.readFile("auth.json", { encoding: 'utf-8' }, (err, authFile) => {
+                let authList = JSON.parse(authFile);
+                let userForRegister = req.body;
+                if (userForRegister.auth.password === userForRegister.auth.passwordConfirm) {
+                    // console.log(userForRegister)
+                    let salt = crypto.randomBytes(128).toString('base64');
+                    getHash(userForRegister.auth.password, salt).then(hash => {
+                        const user = {
+                            username: userForRegister.user.username,
+                            passwordSalt: salt,
+                            passwordHash: hash
+                        }
+                        authList.push(user);
+                        writeFile(authList, "auth").then(() => {
+                            let reqClone = { ...req };
+                            reqClone.body = req.body.user;
+                            addNewUser(reqClone, res);
+                        })
+                    })
                 }
-                authList.push(user);
-                writeFile(authList, "auth").then(() => {
-                    let reqClone = { ...req };
-                    reqClone.body = req.body.user;
-                    addNewUser(reqClone, res);
-                })
             })
         }
     })

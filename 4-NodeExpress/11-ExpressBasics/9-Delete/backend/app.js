@@ -30,8 +30,8 @@ app
         deleteUser(req, res);
     })
 
-const server = app.listen(8080, () => {
-    console.log("Listening on: http://localhost:8080")
+const server = app.listen(3000, () => {
+    console.log("Listening on: http://localhost:3000")
 })
 
 // function getUsers() {

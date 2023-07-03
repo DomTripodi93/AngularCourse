@@ -1,0 +1,37 @@
+<form (keyup)="$event.key === 'Enter' ? submitLogin() : null" 
+    (ngSubmit)="submitLogin()"
+    class="inner-page-width border-box grid50-dynamic">
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                Username:
+            </label>
+            <input class="input-position" 
+                name="username"
+                [(ngModel)]="userForLogin.username"/>
+        </div>
+    </div>
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                Password:
+            </label>
+            <input class="input-position" 
+                name="password"
+                type="password"
+                [(ngModel)]="userForLogin.password"/>
+        </div>
+        <div class="grid50 field-space">
+            <div></div>
+            <button class="button-space" type="submit">
+                Login
+            </button>
+        </div>
+    </div>
+</form>
+<br/>
+<div class="inner-page-width grid50-dynamic middle">
+    <a href="javascript:undefined;" (click)="goToRegister()" class="anchor">
+        Register New User
+    </a>
+</div>

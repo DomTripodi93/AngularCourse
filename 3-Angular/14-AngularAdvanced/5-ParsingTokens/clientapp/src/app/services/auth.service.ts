@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { Registration } from "../models/Registration";
 import { Auth } from "../models/Auth";
-import { UserService } from "./user.service";
 import { TokenResponse } from "../models/TokenResponse";
 import jwt_decode  from 'jwt-decode';
 
@@ -14,32 +13,29 @@ export class AuthService {
         password: "",
         passwordConfirm: "",
     }
-    emptyRegistration: Registration = {
-        auth: { ...this.emptyAuth },
-        user: { ...this.userService.emptyUser }
-    }
     isAuthenticated: boolean = false;
+    fullName: string = "";
     username: string = "";
     userId: string = "";
     token: string = "";
 
     constructor(
-        private http: HttpClient,
-        private userService: UserService
+        private http: HttpClient
     ) { }
 
     postRegistration(registration: Registration) {
-        return this.http.post("http://localhost:8080/auth/register", registration)
+        return this.http.post("http://localhost:3000/auth/register", registration)
     }
 
     postLogin(userForLogin: Auth) {
-        return this.http.post<TokenResponse>("http://localhost:8080/auth/login", userForLogin)
+        return this.http.post<TokenResponse>("http://localhost:3000/auth/login", userForLogin)
     }
 
     storeTokenInfo(token: string) {
         this.token = token;
         let tokenInfo: any = jwt_decode(token);
         console.log(tokenInfo);
+        this.fullName = tokenInfo["fullName"] ?? "";
         this.username = tokenInfo["username"] ?? "";
         this.userId = tokenInfo["userId"] ?? "";
     }

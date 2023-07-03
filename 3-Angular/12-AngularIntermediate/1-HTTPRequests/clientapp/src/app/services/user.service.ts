@@ -42,7 +42,7 @@ export class UserService {
     ) { }
 
     getUsers() {
-        return this.http.get("http://localhost:8080/user/users")
+        return this.http.get("http://localhost:3000/user/users")
     }
 
     editUser(fullName: string, index: number) {

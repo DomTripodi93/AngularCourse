@@ -1,0 +1,80 @@
+<form (keyup)="$event.key === 'Enter' ? submitRegistration() : null" 
+    (ngSubmit)="submitRegistration()"
+    class="inner-page-width border-box grid50-dynamic">
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                Username:
+            </label>
+            <input class="input-position" 
+                name="username"
+                [(ngModel)]="registration.user.username"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Password:
+            </label>
+            <input class="input-position" 
+                name="password"
+                type="password"
+                [(ngModel)]="registration.auth.password"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Confirm Password:
+            </label>
+            <input class="input-position" 
+                name="passwordConfirm"
+                type="password"
+                [(ngModel)]="registration.auth.passwordConfirm"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Full Name:
+            </label>
+            <input class="input-position"
+                name="fullName"
+                [(ngModel)]="registration.user.fullName"/>
+        </div>
+    </div>
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                City:
+            </label>
+            <input class="input-position" 
+                name="city"
+                [(ngModel)]="registration.user.city"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Gender:
+            </label>
+            <input class="input-position" 
+                name="gender"
+                [(ngModel)]="registration.user.gender"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Color:
+            </label>
+            <input class="input-position" 
+                name="favoriteColor"
+                [(ngModel)]="registration.user.favoriteColor"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Animal:
+            </label>
+            <input class="input-position" 
+                name="favoriteAnimal"
+                [(ngModel)]="registration.user.favoriteAnimal"/>
+        </div>
+        <div class="grid50 field-space">
+            <div></div>
+            <button class="button-space" type="submit">
+                Register User
+            </button>
+        </div>
+    </div>
+</form>

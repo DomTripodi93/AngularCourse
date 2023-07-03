@@ -1,0 +1,75 @@
+
+<form (keyup)="$event.key === 'Enter' ? submitEdit() : null" 
+    (ngSubmit)="submitEdit()"
+    [ngClass]="singleUser ? 'inner-page-width border-box' : ''"
+    class="grid50-dynamic inner-page-width">
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                User Id:
+            </label>
+            <div class="float-right">
+                {{userServ.userForEdit.userId}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Username:
+            </label>
+            <input class="input-position" 
+                name="username"
+                [(ngModel)]="userServ.userForEdit.username"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Full Name:
+            </label>
+            <input class="input-position"
+                name="fullName"
+                [(ngModel)]="userServ.userForEdit.fullName"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                City:
+            </label>
+            <input class="input-position" 
+                name="city"
+                [(ngModel)]="userServ.userForEdit.city"/>
+        </div>
+    </div>
+    <div>
+        <div class="field-space">
+            <label class="label-text">
+                Gender:
+            </label>
+            <input class="input-position" 
+                name="gender"
+                [(ngModel)]="userServ.userForEdit.gender"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Color:
+            </label>
+            <input class="input-position" 
+                name="favoriteColor"
+                [(ngModel)]="userServ.userForEdit.favoriteColor"/>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Favorite Animal:
+            </label>
+            <input class="input-position" 
+                name="favoriteAnimal"
+                [(ngModel)]="userServ.userForEdit.favoriteAnimal"/>
+        </div>
+        <div class="grid50">
+            <button class="button-space" type="button" (click)="userServ.toggleEdit()">
+                Cancel Edit
+            </button>
+            <!-- <button class="button-space" (click)="submitEdit()"> -->
+            <button class="button-space" type="submit">
+                Submit Edit
+            </button>
+        </div>
+    </div>
+</form>

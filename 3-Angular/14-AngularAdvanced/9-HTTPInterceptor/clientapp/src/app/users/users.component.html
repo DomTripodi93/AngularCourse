@@ -1,0 +1,13 @@
+<!-- <ol>
+    <li *ngFor="let user of userServ.userList; let index = index">
+        <app-user-single [user]="user" [index]="index"></app-user-single>
+    </li>
+</ol> -->
+<!-- <button (click)="navigateToList()">List View</button> -->
+<h3>
+    Users:
+</h3>
+<div *ngFor="let user of userServ.userList; let index = index" class="inner-page-width border-box">
+    <!-- <app-user-single [user]="user" [index]="index"></app-user-single> -->
+    <app-user-single [user]="user"></app-user-single>
+</div>

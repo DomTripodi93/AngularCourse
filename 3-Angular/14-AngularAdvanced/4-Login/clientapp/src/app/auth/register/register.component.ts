@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Registration } from 'src/app/models/Registration';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -8,10 +9,14 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-    registration: Registration = { ...this.authServ.emptyRegistration}
+    registration: Registration  = {
+        auth: { ...this.authServ.emptyAuth },
+        user: { ...this.userService.emptyUser }
+    }
 
     constructor(
-        public authServ: AuthService
+        public authServ: AuthService,
+        private userService: UserService
     ) { }
 
     submitRegistration() {

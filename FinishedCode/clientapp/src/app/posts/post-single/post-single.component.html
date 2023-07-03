@@ -1,0 +1,52 @@
+<div *ngIf="!(postServ.editMode && postServ.postForEdit.postId === post.postId)" 
+    class = "inner-page-width border-box">
+    <div>
+        <div class="field-space flex">
+            <label class="label-text">
+                Username:
+            </label>
+            <div class="float-right">
+                {{post.username}}
+            </div>
+        </div>
+        <hr/>
+        <div class="field-space">
+            <div class="show-white-space">
+                {{post.postContent}}
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="grid50-dynamic">
+        <div class="field-space">
+            <label class="label-text">
+                Posted On:
+            </label>
+            <div class="float-right">
+                {{post.postDate | date:'yyyy-MM-dd'}} @ {{post.postDate | date:'shortTime'}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="label-text">
+                Last Updated:
+            </label>
+            <div class="float-right">
+                {{post.updateDate | date:'yyyy-MM-dd'}} @ {{post.updateDate | date:'shortTime'}}
+            </div>
+        </div>
+    </div>
+    <div class="grid50-dynamic">
+        <div></div>
+        <div *ngIf="authServ.username === post.username" class="grid50">
+            <button class="button-space" (click)="removePost()">
+                Remove
+            </button>
+            <button class="button-space" (click)="postServ.toggleEdit(post)">
+                Edit
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="postServ.editMode && postServ.postForEdit.postId === post.postId" >
+    <app-post-edit></app-post-edit>
+</div>
