@@ -1,0 +1,23 @@
+
+.purple-box {
+    background-color: rgb(74, 74, 168);
+    /* margin-left: 20px; */
+    /* padding-top: 20px; */
+    /* margin: 15px 5px 15px 5px; */
+    margin: auto;
+    width: 150px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    /* text-align: right; */
+    /* Padding top and bottom is the same */
+    padding: 15px 5px 15px 5px;
+    /* Line height matches element height */
+    height: 50px;
+    line-height: 50px;
+
+    text-decoration: underline;
+    font-style: oblique;
+    font-weight: 100;
+}

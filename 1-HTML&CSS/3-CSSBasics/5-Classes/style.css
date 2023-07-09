@@ -1,8 +1,10 @@
 
-h4 {
+.purple-box {
     background-color: rgb(150, 150, 235);
     /* margin-left: 20px; */
     /* padding-top: 20px; */
     margin: 15px 5px 15px 5px;
     padding: 15px 5px 15px 5px;
+    height: 50px;
+    width: 150px;
 }
