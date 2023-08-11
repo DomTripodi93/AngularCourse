@@ -2,13 +2,10 @@
 
 function dynamicFunctionArgument(callback) {
     console.log("This is the root function");
-    return () => {
-        console.log("This is a nested return function");
-        callback();
-    }
+    callback();
 }
 
-const returnedFunctionFromArrow = dynamicFunctionArgument(() =>{
+dynamicFunctionArgument(() =>{
     console.log("This is an anonymous arrow function");
 })
 
@@ -20,7 +17,4 @@ console.log("\n");
 
 // callbackFunction();
 // dynamicFunctionArgument(callbackFunction());
-const returnedFunctionFromNamed = dynamicFunctionArgument(callbackFunction);
-
-returnedFunctionFromArrow();
-returnedFunctionFromNamed();
+dynamicFunctionArgument(callbackFunction);

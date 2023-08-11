@@ -1,21 +1,29 @@
+let six = 6;
+let five = 5;
+let three = 3;
+let sixString = "6";
 
-let six = 6
-let three = 3
-let stringSix = "6"
 
-if (six === stringSix) {
-    console.log("match")
-} else if (six === +stringSix) {
-    console.log("numeric match")
-} else {
-    console.log("no match")
-}
+console.log(six === +sixString ? "That was true" : "That was not true");
+console.log(six === sixString ? "That was true" : "That was not true");
 
-let matchType = (six === stringSix) ? "match" : "no match"
+console.log(null ?? "Some default");
+console.log(undefined ?? "Some default");
+console.log("Original Value" ?? "Some default");
+console.log("" ?? "Some default");
 
-console.log(matchType);
+// if (six === sixString) {
+//     console.log("This was true");
+// } else if (six === +sixString) {
+//     console.log("The else if was true")
+// } else if (six == sixString) {
+//     console.log("The second else if was true")
+// } else {
+//     console.log("All the previous statements were false")
+// }
 
-let matchTypeMulti = (six === stringSix) ? "match" : 
-    (six === +stringSix) ? "numeric match" : "no match"
-
-console.log(matchTypeMulti);
+// if (six == sixString) {
+//     console.log("This second if was true");
+// } else {
+//     console.log("This second if was not true")
+// }

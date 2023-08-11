@@ -1,35 +1,37 @@
-let loopThrough = [1, 5, 3, "x"]
 
-for (let i = 0; i < loopThrough.length; i++) {
-    console.log(loopThrough[i]);
-}
+let myArrayToLoopThrough = [3, 5, 6, "string", null];
 
-loopThrough.forEach(value =>{
-    console.log(value);
-})
+// for (let i = 0; i < myArrayToLoopThrough.length; i++) {
+// // for (let i = myArrayToLoopThrough.length - 1; i >= 0; i--) {
+//     console.log(myArrayToLoopThrough[i]);
+// }
 
-loopThrough.forEach((value, i) =>{
-    console.log(value);
-    if (i === loopThrough.length - 1) {
-        console.log("done");
-    }
-})
+// myArrayToLoopThrough.forEach(value => {
+//     console.log(value);
+// })
 
-let i = 0;
 
-console.log("While")
+// myArrayToLoopThrough.forEach((value, i) => {
+//     console.log(value);
+//     if (i === myArrayToLoopThrough.length - 1) {
+//         console.log("This is the last item");
+//     }
+// })
 
-while (i < loopThrough.length) {
+let i = 10;
+
+while (i < myArrayToLoopThrough.length) {
+    console.log("While");
+    console.log(myArrayToLoopThrough[i]);
     i++;
-    console.log(loopThrough[i]);
+    // console.log(i);
 }
 
+let j = 10;
 
-console.log("Do While")
-
-let j = 0;
 do {
-    j++
-    console.log(j)
-// } while (j < 3)
-} while (7 < 3)
+    console.log("Do While");
+    console.log(myArrayToLoopThrough[j]);
+    j++;
+    console.log(j);
+} while (j < myArrayToLoopThrough.length)

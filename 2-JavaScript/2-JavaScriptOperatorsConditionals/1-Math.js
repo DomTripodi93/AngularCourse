@@ -1,42 +1,58 @@
+let six = 6;
+let five = 5;
+let three = 3;
 
-let six = 6
-let three = 3
-let five = 5
+let sum = six + five;
 
-let sum = six + three
-console.log(sum)
+console.log("\nSum:");
+console.log(sum);
 
+let difference = six - three;
 
-let difference = six - three
-console.log(difference)
+console.log("\nDifference:");
+console.log(difference);
 
+let product = five * six;
 
-let product = six * three
-console.log(product)
-
-
-let quotient = six / three
-console.log(quotient)
-
-let secondQuotient = five / three
-console.log(quotient)
+console.log("\nProduct:");
+console.log(product);
 
 
-let remainder = five % three
-console.log(remainder)
+let firstQuotient = six / three;
+
+console.log("\nFirst Quotient:");
+console.log(firstQuotient);
 
 
-let squared = Math.pow(five, 2)
-console.log(squared)
+let secondQuotient = five / three;
 
-let squareRt = Math.sqrt(squared)
-console.log(squareRt)
-
-
-let cubed = Math.pow(five, three)
-console.log(squared)
-
-let cubedRt = Math.cbrt(cubed)
-console.log(squareRt)
+console.log("\nSecond Quotient:");
+console.log(secondQuotient);
 
 
+let remainder = five % three;
+
+console.log("\nRemainder:");
+console.log(remainder);
+
+
+let squared = Math.pow(five, 2);
+
+console.log("\nSquared:");
+console.log(squared);
+
+let squareRt = Math.sqrt(squared);
+
+console.log("\nSquare Root:");
+console.log(squareRt);
+
+
+let cubed = Math.pow(five, 3);
+
+console.log("\nCubed:");
+console.log(cubed);
+
+let cubeRt = Math.cbrt(cubed);
+
+console.log("\nCube Root:");
+console.log(cubeRt);

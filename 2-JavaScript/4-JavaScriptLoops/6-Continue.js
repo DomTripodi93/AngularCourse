@@ -1,54 +1,58 @@
-let loopThrough = [1, 5, 3, "x"]
 
-for (let i = 0; i < loopThrough.length; i++) {
-    console.log(loopThrough[i]);
+let myArrayToLoopThrough = [3, 5, 6, "string", null];
+
+for (let i = 0; i < myArrayToLoopThrough.length; i++) {
+// for (let i = myArrayToLoopThrough.length - 1; i >= 0; i--) {
+    // console.log("For");
+    console.log(myArrayToLoopThrough[i]);
     if (i === 2) {
         // break;
         continue;
     }
-    console.log("next line");
+    console.log("Next Line");
 }
 
-loopThrough.forEach(value =>{
-    console.log(value);
-    // if (value === 3) {
-        // break;
-        // continue;
-    // }
-})
+// myArrayToLoopThrough.forEach(value => {
+//     console.log(value);
+// })
 
-loopThrough.forEach((value, i) =>{
-    console.log(value);
-    if (i === loopThrough.length - 1) {
-        console.log("done");
-    }
-})
+
+// myArrayToLoopThrough.forEach((value, i) => {
+//     // console.log("For Each");
+//     if (i <= 2) {
+//         console.log(value);
+//         if (i === myArrayToLoopThrough.length - 1) {
+//             console.log("This is the last item");
+//         }
+//     }
+// })
 
 let i = 0;
 
-console.log("While")
-
-while (i < loopThrough.length) {
-    i++;
-    console.log(loopThrough[i]);
+while (i < myArrayToLoopThrough.length) {
+    // console.log("While");
+    console.log(myArrayToLoopThrough[i]);
+    // console.log(i);
     if (i === 2) {
         // break;
+        i++;
         continue;
     }
-    console.log("next line");
+    console.log("Next Line");
+    i++;
 }
 
-
-console.log("Do While")
-
 let j = 0;
+
 do {
-    j++
-    console.log(j)
+    // console.log("Do While");
+    console.log(myArrayToLoopThrough[j]);
+    // console.log(j);
     if (j === 2) {
         // break;
+        j++;
         continue;
     }
-    console.log("next line");
-} while (j < 3)
-// } while (7 < 3)
+    console.log("Next Line");
+    j++;
+} while (j < myArrayToLoopThrough.length)

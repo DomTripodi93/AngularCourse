@@ -22,6 +22,18 @@
     text-decoration: underline;
     font-style: oblique;
     font-weight: 100;
+
+    /* opacity: 30%; */
+    cursor: pointer;
+}
+
+.purple-box:hover {
+    background-image: linear-gradient(to top right, blue, red, green);
+}
+
+.image-box{
+    max-height: 100px;
+    max-width: 100px;
 }
 
 
@@ -77,4 +89,19 @@
 .shadows {
     box-shadow: 10px 3px 5px 5px turquoise;
     text-shadow: 3px 1px 5px turquoise;
+}
+
+.border-black {
+    /* border: black 2px solid; */
+    border-width: 2px 4px 6px 8px;
+    border-color: orange black green purple;
+    border-style: solid dotted dashed double;
+    /* border-style: ridge groove ridge groove; */
+}
+
+
+@media only screen and (max-width: 600px) {
+    .grid30 {
+        grid-template-columns: 50% 50%;
+    }
 }

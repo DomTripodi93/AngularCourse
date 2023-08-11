@@ -1,56 +1,51 @@
-h2 {
-    /* background-color: rgb(86, 167, 173); */
-}
 
-.blue-back {
-    background-color: rgb(86, 167, 173);
-    margin: 15px 10px 15px 10px;
-    padding: 15px 10px 15px 10px;
-    height: 100px;
-    width: 300px;
-    /* text-align: center; */
-    /* vertical-align: middle; */
-}
-
-.vert-align{
-    text-align: right;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    color: white;
-    line-height: 100px;
+.purple-box {
+    background-color: rgb(74, 74, 168);
+    /* margin-left: 20px; */
+    /* padding-top: 20px; */
+    /* margin: 15px 5px 15px 5px; */
     margin: auto;
+    width: 150px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    /* text-align: right; */
+    /* Padding top and bottom is the same */
+    padding: 15px 5px 15px 5px;
+    /* Line height matches element height */
+    height: 50px;
+    line-height: 50px;
+
     text-decoration: underline;
-    /* text-decoration: line-through; */
+    font-style: oblique;
+    font-weight: 100;
 }
+
 
 .display-inline {
-    display: inline;
+    display:inline;
+    /* display: block; */
 }
 
 .display-none {
-    display: none;
+    display:none;
+    /* display: block; */
 }
 
-.display-block {
-    display: block;
-}
 
-.position-absolute-bottom{
-    position: absolute;
-    bottom: 0;
-}
-.position-fixed-bottom{
-    background-color: white;
+.position-fixed {
     position: fixed;
-    bottom: 0;
+    top: 5px;
 }
 
-.position-absolute-top{
+
+.position-absolute {
     position: absolute;
-    top: 0;
+    bottom: 0px;
+    right: 0px;
 }
-.position-fixed-top{
-    background-color: white;
-    position: fixed;
-    top: 0;
+
+.top-element{
+    margin-top: 80px;
 }

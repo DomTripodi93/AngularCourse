@@ -1,8 +1,6 @@
 
 .purple-box {
-    /* background-color: rgb(74, 74, 168); */
-    /* background-image: linear-gradient(to bottom, blue, red); */
-    background-image: linear-gradient(to bottom right, blue, red, green);
+    background-color: rgb(74, 74, 168);
     /* margin-left: 20px; */
     /* padding-top: 20px; */
     /* margin: 15px 5px 15px 5px; */

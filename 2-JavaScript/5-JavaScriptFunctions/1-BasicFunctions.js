@@ -1,6 +1,9 @@
 
-function doAThing() {
-    console.log("called");
-}
 
 doAThing();
+doAThing();
+doAThing();
+
+function doAThing() {
+    console.log("Doing a thing");
+}

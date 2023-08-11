@@ -1,34 +1,41 @@
 
-(function runLoop() {
-// (async function runLoop() {
-    let loopThrough = [1, 5, 3, "x"]
+// let myFirstPromise = new Promise((resolve) => {
+//     console.log("This is inside of the promise");
+//     setTimeout(() =>{
+//         console.log("The timeout is done");
+//         resolve();
+//     }, 2000)
+// })
+
+// console.log("This is after the promise has started");
+
+// myFirstPromise.then(() => {
+//     console.log("The promise is resolved");
+// })
+
+
+// console.log("this is at the end");
+
+
+myAsyncFunc();
+
+async function myAsyncFunc() {
+    let myFirstPromise = new Promise((resolve) => {
+        console.log("This is inside of the promise");
+        setTimeout(() =>{
+            console.log("The timeout is done");
+            resolve();
+        }, 2000)
+    })
     
-    // loopThrough.forEach((value, i) =>{
-    //     setTimeout(() =>{
-    //         console.log(value)
+    console.log("This is after the promise has started");
     
-    //         if (i === loopThrough.length - 1) {
-    //             console.log("done");
-    //         }
-    //     }, 10)
+    // myFirstPromise.then(() => {
+    //     console.log("The promise is resolved");
     // })
     
-    let loopPromise = new Promise(resolve => {
-        loopThrough.forEach((value, i) =>{
-            setTimeout(() =>{
-                console.log(value)
-                if (i === loopThrough.length - 1) {
-                    console.log("done");
-                    resolve();
-                }
-            }, 10)
-        })
-    })
     
-    // await loopPromise
-
-    loopPromise.then(()=>{
-        console.log("done - end");
-    })
-    
-})();
+    // console.log("this is at the end");
+    await myFirstPromise;
+    console.log("this is at the end");
+}

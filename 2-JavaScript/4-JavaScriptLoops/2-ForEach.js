@@ -1,16 +1,19 @@
-let loopThrough = [1, 5, 3, "x"]
 
-for (let i = 0; i < loopThrough.length; i++) {
-    console.log(loopThrough[i]);
-}
+let myArrayToLoopThrough = [3, 5, 6, "string", null];
 
-loopThrough.forEach(value =>{
+// for (let i = 0; i < myArrayToLoopThrough.length; i++) {
+// // for (let i = myArrayToLoopThrough.length - 1; i >= 0; i--) {
+//     console.log(myArrayToLoopThrough[i]);
+// }
+
+myArrayToLoopThrough.forEach(value => {
     console.log(value);
 })
 
-loopThrough.forEach((value, i) =>{
+
+myArrayToLoopThrough.forEach((value, i) => {
     console.log(value);
-    if (i === loopThrough.length - 1) {
-        console.log("done");
+    if (i === myArrayToLoopThrough.length - 1) {
+        console.log("This is the last item");
     }
 })

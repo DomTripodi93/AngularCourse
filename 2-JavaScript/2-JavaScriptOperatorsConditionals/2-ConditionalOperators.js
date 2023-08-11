@@ -1,33 +1,45 @@
+let six = 6;
+let five = 5;
+let three = 3;
+let sixString = "6";
 
-let six = 6
-let three = 3
-let stringSix = "6"
 
-console.log(six > three);
-console.log(six < three);
-console.log(six == three);
+console.log("6 > 3");
+console.log(sixString > three);
+console.log("6 < 3");
+console.log(sixString < three);
+console.log("6 < 6");
+console.log(six < six);
+console.log("6 <= 6");
+console.log(six <= six);
+console.log("6 >= 6");
+console.log(six >= sixString);
 
-console.log(six == stringSix);
-console.log(six === stringSix);
-console.log(six !== stringSix);
-console.log(six === +stringSix);
+console.log("double ==");
+console.log(six == sixString);
+console.log("triple ===");
+console.log(six === sixString);
 
-let today = new Date()
-let todayTwo = new Date()
-let yesterday = new Date(today.getTime() - (24 * 60 * 60 * 1000))
+console.log("Not Equal !==");
+console.log(six !== sixString);
 
-console.log(today > yesterday)
-console.log(today < yesterday)
-console.log(today == todayTwo)
-console.log(today !== todayTwo)
-console.log(today === todayTwo)
 
-let letterA = "a"
-let letterB = "b"
+console.log("Not double ==")
+console.log(!(six == sixString));
 
-console.log(letterA > letterB)
-console.log(letterA < letterB)
-console.log(letterA === letterB)
-console.log(letterA !== letterB)
-console.log(letterA == "a")
-console.log(letterA === "a")
+
+let stringA = "a";
+let stringACapitalized = "A";
+let stringB = "b";
+
+
+console.log("a > b");
+console.log(stringA > stringB);
+console.log("a < b");
+console.log(stringA < stringB);
+console.log("triple ===");
+console.log(stringA === stringACapitalized.toLowerCase());
+console.log("triple ===");
+console.log(stringA.toUpperCase() === stringACapitalized);
+
+console.log(stringACapitalized);

@@ -1,17 +1,18 @@
+let elephant = "Elephants";
 
-let someRandomValue = "Elephant";
-
-switch (someRandomValue){
+switch (elephant){
     case "elephant":
         console.log("elephant");
         break;
     case "Elephant":
         console.log("Elephant");
-        // break; //Without break it will keep checking for more matches
+        break; //If there is no break, we will keep searching
     case "Elephant":
         console.log("Elephant #2");
-        break; //Without break it will keep checking for more matches
+        break;
     default:
-        console.log("no match")
+        console.log("default")
         break;
 }
+
+console.log("some next line");

@@ -1,8 +1,6 @@
 
 .purple-box {
-    /* background-color: rgb(74, 74, 168); */
-    /* background-image: linear-gradient(to bottom, blue, red); */
-    background-image: linear-gradient(to bottom right, blue, red, green);
+    background-color: rgb(74, 74, 168);
     /* margin-left: 20px; */
     /* padding-top: 20px; */
     /* margin: 15px 5px 15px 5px; */
@@ -71,10 +69,4 @@
     border-color: black green purple orange;
     border-style: solid dotted dashed double;
     /* border-style: ridge groove ridge groove; */
-}
-
-/*x-axis y-axis blur-radius spread-radius color*/
-.shadows {
-    box-shadow: 10px 3px 5px 5px turquoise;
-    text-shadow: 3px 1px 5px turquoise;
 }
