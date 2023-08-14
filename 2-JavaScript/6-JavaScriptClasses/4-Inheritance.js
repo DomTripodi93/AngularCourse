@@ -1,45 +1,52 @@
 
-class MyFirstClass {
-    //Not a field - technically getters and setters are implemented by browsers
-    ////More importantly, the inventors of JavaScript decided to name it as a property
-    someProperty;
-    // someProperty = "some value";
-    someNumericProperty = 7;
+class Furniture {
 
-    constructor(somePropertyValue) {
-        // someProperty = somePropertyValue;
-        this.someProperty = somePropertyValue;
+    furnitureName = "Some String Value";
+    quantity = 0;
+    price = 0;
+
+    constructor(furnitureNameToAssign, priceToAssign) {
+        // let constructedProperty
+        console.log("Furniture was created")
+        this.furnitureName = furnitureNameToAssign;
+        this.price = priceToAssign;
+        // constructedPropeaarty = constructedPropertyValue;
     }
 
-    addToNumeric(valueToAdd) {
-        this.someNumericProperty += valueToAdd;
-        console.log(this.someNumericProperty);
+    adjustQuantity(quantityToAdd) {
+        this.quantity += quantityToAdd;
     }
+
 }
 
+class Chair extends Furniture {
+    canSit = true;
 
-class MyInheritingClass extends MyFirstClass {
-    newProperty = "new property"
-    someNumericProperty = 10
-
-    addToNumeric(valueToAdd) {
-        console.log("Before Adding: " + this.someNumericProperty);
-        this.someNumericProperty += valueToAdd;
-        console.log("After Adding: " + this.someNumericProperty);
-    }
-
-    subtractFromNumeric(valueToSubtract) {
-        this.someNumericProperty -= valueToSubtract;
-        console.log(this.someNumericProperty);
-    }
 }
 
-let classInstance = new MyInheritingClass("new value", "new property value");
+class Table extends Furniture {
+    canSit = false;
 
-console.log(classInstance.someProperty);
-console.log(classInstance.newProperty);
+}
+
+// MyFirstClass.someStringProperty
+
+let myRecliner = new Chair("Recliner", 300);
+let myDiningRoomTable = new Table("Dining Room", 500);
 
 
-classInstance.addToNumeric(12)
-// classInstance.addToNumeric(-22)
-classInstance.subtractFromNumeric(22)
+// console.log(myClassInstance.someStringProperty);
+
+// myClassInstance.someStringProperty = "A new value";
+
+myRecliner.adjustQuantity(7);
+
+console.log(myRecliner.furnitureName);
+console.log(myRecliner.canSit);
+console.log(myRecliner.price);
+console.log(myRecliner.quantity);
+
+console.log(myDiningRoomTable.furnitureName);
+console.log(myDiningRoomTable.canSit);
+console.log(myDiningRoomTable.price);
+console.log(myDiningRoomTable.quantity);

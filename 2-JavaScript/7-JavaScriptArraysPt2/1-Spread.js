@@ -1,31 +1,49 @@
 
-let someArray = [3, 2, 5, 1, 7]
-let someOtherArray = [4, 0, 10, 9, 7]
+let myArray = [4, 9, 10, 3, 5];
+let mySecondArray = [10, 10, 9, 5, 0, 1];
 
-// [3, 2, 5, 1, 7], [4, 0, 10, 9, 7]
-// 3, 2, 5, 1, 7, 4, 0, 10, 9, 7
+let myCopyArray = myArray;
 
-let combinedArray = [...someArray, ...someOtherArray]
+let myArrayString = JSON.stringify(myArray);
 
-console.log(combinedArray);
+let myCloneArray = JSON.parse(myArrayString);
+
+//...myArray
+//4, 9, 10, 3, 5
+let mySecondCloneArray =  [...myArray]
+
+let myCombinedArray = [...myArray, ...mySecondArray];
+
+myArray[2] = 100;
+
+// console.log(myArray);
+// console.log(myCopyArray);
+// console.log(myCloneArray);
+// console.log(mySecondCloneArray);
+// console.log(myCombinedArray);
 
 
-let someObject = {
-    someString: "First Object",
-    someNumber: 7
-}
-
-let someOtherObject = {
-    someString: "Second Object",
-    someOtherNumber: 12
-}
-
-// let combinedObject = {...someObject, ...someOtherObject};
-// let combinedObject = {...someOtherObject, ...someObject};
-let combinedObject = {
-    someString: "New Object", 
-    ...someObject, 
-    ...someOtherObject
+let myObject = {
+    firstKey: 1,
+    secondKey: 2
 };
 
-console.log(combinedObject)
+let mySecondObject = {
+    secondKey: 5,
+    thirdKey: 3
+}
+
+let myCopyObject = myObject;
+
+let myCloneObject = {...myObject};
+
+let myCombinedObject = {...myObject, ...mySecondObject, secondKey: 10};
+let mySecondCombinedObject = {...mySecondObject, ...myObject};
+
+myObject.firstKey = 7;
+
+console.log(myObject);
+console.log(myCopyObject);
+console.log(myCloneObject);
+console.log(myCombinedObject);
+console.log(mySecondCombinedObject);

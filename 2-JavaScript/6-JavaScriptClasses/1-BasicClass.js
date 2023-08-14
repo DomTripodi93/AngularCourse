@@ -1,27 +1,22 @@
 
 class MyFirstClass {
-    //Not a field - technically getters and setters are implemented by browsers
+    //Not a field - technically encapsulation (getters and setters) is implemented by browsers
     ////More importantly, the inventors of JavaScript decided to name it as a property
-    someProperty = "some value";
-    someNumericProperty = 7;
+    someStringProperty = "Some String Value";
 }
 
-console.log(MyFirstClass.someProperty);
+//Bad practice, but does work - you should access a property on an instance of a class
+// MyFirstClass.someStringProperty
+
+let myClassInstance = new MyFirstClass();
+let mySecondClassInstance = new MyFirstClass();
 
 
-let classInstance = new MyFirstClass();
+console.log(myClassInstance.someStringProperty);
 
-console.log(classInstance.someProperty);
+myClassInstance.someStringProperty = "A new value";
 
-
-classInstance.someProperty = "new value";
-
-console.log(classInstance.someProperty);
+console.log(myClassInstance.someStringProperty);
 
 
-//Bad practice, but does work - adding a new property to an instance of a class
-////Should be added to the class declaration
-classInstance.newProperty = "new property";
-
-console.log(classInstance.newProperty);
-
+console.log(mySecondClassInstance.someStringProperty);

@@ -1,54 +1,63 @@
 
-class MyFirstClass {
-    //Not a field - technically getters and setters are implemented by browsers
-    ////More importantly, the inventors of JavaScript decided to name it as a property
-    someProperty;
-    // someProperty = "some value";
-    someNumericProperty = 7;
+class Furniture {
 
-    constructor(somePropertyValue) {
-        // someProperty = somePropertyValue;
-        this.someProperty = somePropertyValue;
+    furnitureName = "Some String Value";
+    quantity = 0;
+    price = 0;
+
+    constructor(furnitureNameToAssign, priceToAssign) {
+        // let constructedProperty
+        console.log("Furniture was created")
+        this.furnitureName = furnitureNameToAssign;
+        this.price = priceToAssign;
+        // constructedPropeaarty = constructedPropertyValue;
     }
 
-    addToNumeric(valueToAdd) {
-        this.someNumericProperty += valueToAdd;
-        console.log(this.someNumericProperty);
+    adjustQuantity(quantityToAdd) {
+        this.quantity += quantityToAdd;
+    }
+
+}
+
+class Chair extends Furniture {
+    canSit = true;
+    quantity = 8;
+
+    constructor() {
+        console.log("This is the new constructor");
+        super("Chair", 100);
+    }
+
+    adjustQuantity(quantityToAdd) {
+        console.log(quantityToAdd + this.quantity);
+        super.adjustQuantity(quantityToAdd);
     }
 }
 
+class Table extends Furniture {
+    canSit = false;
 
-class MyInheritingClass extends MyFirstClass {
-    newProperty = "new property"
-    someNumericProperty = 10
-
-    constructor(somePropertyValue, newPropertyValue) {
-        super(somePropertyValue);
-        // someProperty = somePropertyValue;
-        // this.someProperty = somePropertyValue;
-        this.newProperty = newPropertyValue;
-        // super(somePropertyValue);
-    }
-
-    addToNumeric(valueToAdd) {
-        console.log("Before Adding: " + this.someNumericProperty);
-        super.addToNumeric(valueToAdd);
-        // this.someNumericProperty += valueToAdd;
-        console.log("After Adding: " + this.someNumericProperty);
-    }
-
-    subtractFromNumeric(valueToSubtract) {
-        this.someNumericProperty -= valueToSubtract;
-        console.log(this.someNumericProperty);
-    }
 }
 
-let classInstance = new MyInheritingClass("new value", "new property value");
+// MyFirstClass.someStringProperty
 
-console.log(classInstance.someProperty);
-console.log(classInstance.newProperty);
+// let myRecliner = new Chair("Recliner", 300);
+let myRecliner = new Chair();
+let myDiningRoomTable = new Table("Dining Room", 500);
 
 
-classInstance.addToNumeric(12)
-// classInstance.addToNumeric(-22)
-classInstance.subtractFromNumeric(22)
+// console.log(myClassInstance.someStringProperty);
+
+// myClassInstance.someStringProperty = "A new value";
+
+myRecliner.adjustQuantity(7);
+
+console.log(myRecliner.furnitureName);
+console.log(myRecliner.canSit);
+console.log(myRecliner.price);
+console.log(myRecliner.quantity);
+
+console.log(myDiningRoomTable.furnitureName);
+console.log(myDiningRoomTable.canSit);
+console.log(myDiningRoomTable.price);
+console.log(myDiningRoomTable.quantity);

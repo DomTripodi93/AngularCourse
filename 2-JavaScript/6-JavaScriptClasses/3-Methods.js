@@ -1,27 +1,36 @@
 
 class MyFirstClass {
-    //Not a field - technically getters and setters are implemented by browsers
-    ////More importantly, the inventors of JavaScript decided to name it as a property
-    someProperty;
-    // someProperty = "some value";
-    someNumericProperty = 7;
 
-    constructor(somePropertyValue) {
-        // someProperty = somePropertyValue;
-        this.someProperty = somePropertyValue;
+    someStringProperty = "Some String Value";
+    constructedProperty = "";
+    numericProperty = 0;
+
+    constructor(constructedPropertyValue) {
+        // let constructedProperty
+        console.log("Class instance was created")
+        this.constructedProperty = constructedPropertyValue;
+        // constructedPropeaarty = constructedPropertyValue;
     }
 
-    addToNumeric(valueToAdd) {
-        this.someNumericProperty += valueToAdd;
-        console.log(this.someNumericProperty);
+    addToNumeric(numberToAdd) {
+        this.numericProperty += numberToAdd;
     }
+
 }
 
+// MyFirstClass.someStringProperty
 
-let classInstance = new MyFirstClass("new value");
+let myClassInstance = new MyFirstClass("This is the constructed property's new value");
+let mySecondClassInstance = new MyFirstClass("This is the second constructed property's new value");
 
-console.log(classInstance.someProperty);
 
+// console.log(myClassInstance.someStringProperty);
 
-classInstance.addToNumeric(12)
-classInstance.addToNumeric(-22)
+// myClassInstance.someStringProperty = "A new value";
+
+myClassInstance.addToNumeric(7);
+mySecondClassInstance.addToNumeric(15);
+
+console.log(myClassInstance.numericProperty);
+
+console.log(mySecondClassInstance.numericProperty);
