@@ -1,28 +1,47 @@
 
-{{title}}
 
-<!-- <button (click)="clickMethod()"> -->
-<button (click)="clickMethod($event)">
-    Click Me!
-</button>
-
-Clicked {{clicked}} times!
-
-<!-- <button (dblclick)="doubleClickMethod()"> -->
-<button (dblclick)="doubleClickMethod($event)">
-    Double Click Me!
-</button>
-
-Double-clicked {{doubleClicked}} times!
-
-<div *ngIf="someValue > 12">
-    Show This text
+<div class="spaced">
+    helloWorld
+    <br/>
+    {{helloWorld + " - " + title}}
 </div>
 
-<div *ngIf="clicked > 5">
-    Clicked more than 5 times!
+<div class="spaced">
+    <button (click)="incrementClicked()">
+        Click Me
+    </button>
+    <br/>
+    The button was clicked {{clicked}} times.
+    <br/>
+    <!-- <input [value]="clicked" /> -->
+    <!-- <input [(ngModel)]="clicked" /> -->
+    <input [(ngModel)]="clicked" type="number"/>
+    <div class="spaced" *ngIf="clicked > 5">
+        You have clicked more than 5 times
+    </div>
 </div>
 
-<div *ngFor="let value of valuesToIterate; let index = index">
-    {{value}}, {{index}}
+<div class="spaced">
+    <button (dblclick)="incrementDoubleClicked()">
+        Double Click Me
+    </button>
+    <br/>
+    The button was double clicked {{doubleClicked}} times.
+</div>
+
+<div class="spaced" *ngIf="willShowBlock">
+    This is the conditionally displayed block
+</div>
+
+<div class="spaced">
+    <div *ngFor="let number of valuesToLoopThrough; let indexOut = index">
+        Boilerplate, this is one of the numbers
+        <br/>
+        {{number}}, {{indexOut}}
+    </div>
+</div>
+
+
+<div class="spaced">
+    <app-users></app-users>
 </div>

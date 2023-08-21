@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -6,23 +6,28 @@ import { Component, HostListener } from '@angular/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title: string = 'clientapp';
-    someValue: number = 12;
+    title = 'ClientApp';
+    helloWorld: string = "Hello World";
+    //string interpolation
     clicked: number = 0;
     doubleClicked: number = 0;
-    valuesToIterate: number[] = [4, 5, 1, 3, 12]
 
-    // clickMethod() {
-    clickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("clicked")
+    // willShowBlock: boolean = true;
+    willShowBlock: boolean = false;
+
+    valuesToLoopThrough: number[] = [
+        4, 
+        2,
+        5,
+        8
+    ];
+
+    incrementClicked() {
         this.clicked += 1;
     }
 
-    // doubleClickMethod() {
-    doubleClickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("double clicked")
+    incrementDoubleClicked() {
         this.doubleClicked += 1;
     }
+
 }

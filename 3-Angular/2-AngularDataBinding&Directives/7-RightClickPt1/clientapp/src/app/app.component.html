@@ -1,0 +1,56 @@
+
+
+<div class="spaced">
+    helloWorld
+    <br/>
+    {{helloWorld + " - " + title}}
+</div>
+
+<div class="spaced">
+    <button (click)="incrementClicked()">
+        Click Me
+    </button>
+    <br/>
+    The button was clicked {{clicked}} times.
+    <br/>
+    <!-- <input [value]="clicked" /> -->
+    <!-- <input [(ngModel)]="clicked" /> -->
+    <input [(ngModel)]="clicked" type="number"/>
+    <div class="spaced" *ngIf="clicked > 5">
+        You have clicked more than 5 times
+    </div>
+</div>
+
+<div class="spaced">
+    <button (dblclick)="incrementDoubleClicked()">
+        Double Click Me
+    </button>
+    <br/>
+    The button was double clicked {{doubleClicked}} times.
+</div>
+
+<div class="spaced" *ngIf="willShowBlock">
+    This is the conditionally displayed block
+</div>
+
+<div class="spaced">
+    <div *ngFor="let number of valuesToLoopThrough; let indexOut = index">
+        Boilerplate, this is one of the numbers
+        <br/>
+        {{number}}, {{indexOut}}
+    </div>
+</div>
+
+<div class="block-of-color"
+     (contextmenu)="toggleContextMenu(true, $event)">
+</div>
+<div *ngIf="contextMenuInfo.willContextMenuShow" 
+    class="context-menu"
+    [style.left.px]="contextMenuInfo.pageX"
+    [style.top.px]="contextMenuInfo.pageY">
+    This is the context menu
+</div>
+
+<div class="spaced">
+    <app-users></app-users>
+</div>

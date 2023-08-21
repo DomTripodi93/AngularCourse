@@ -1,9 +1,19 @@
 
-{{title}}
 
-<!-- <button (click)="clickMethod()"> -->
-<button (click)="clickMethod($event)">
-    Click Me!
-</button>
+<div class="spaced">
+    helloWorld
+    <br/>
+    {{helloWorld + " - " + title}}
+</div>
 
-Clicked {{clicked}} times!
+<div class="spaced">
+    <button (click)="incrementClicked()">
+        Click Me
+    </button>
+    <br/>
+    The button was clicked {{clicked}} times.
+</div>
+
+<div class="spaced">
+    <app-users></app-users>
+</div>

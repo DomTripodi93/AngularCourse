@@ -1,0 +1,16 @@
+.spaced {
+    margin: 15px;
+}
+
+.block-of-color {
+    background-color: blue;
+    width: 300px;
+    height: 300px;
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(236, 236, 236);
+    padding: 10px;
+}
