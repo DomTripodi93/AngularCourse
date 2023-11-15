@@ -1,0 +1,20 @@
+<div *ngIf="!editMode" class="user-single-grid user-page-border">
+    {{userService.userList[userIndex]}}
+
+    <button (click)="userService.removeUser(userIndex)">
+        Delete
+    </button>
+    <button (click)="toggleEdit(true, this.userService.userList[this.userIndex])">
+        Edit
+    </button>
+</div>
+<div *ngIf="editMode" class="user-single-grid user-page-border">
+    <input [(ngModel)]="userForEdit"/>
+    <button (click)="toggleEdit(false)">
+        Cancel
+    </button>
+    <!-- <button (click)="userService.editUser(this.userForEdit, this.userIndex)"> -->
+    <button (click)="submitEdit()">
+        Save
+    </button>
+</div>

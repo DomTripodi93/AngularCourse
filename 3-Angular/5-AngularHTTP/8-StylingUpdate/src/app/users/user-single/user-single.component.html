@@ -1,0 +1,132 @@
+<div *ngIf="!editMode" class="user-page-border"
+    [ngStyle]="textColor">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Full Name: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].fullName}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].username}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                City: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].city}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Animal: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].favoriteAnimal}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Color: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].favoriteColor}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Gender: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].gender}}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid50">
+        <div></div>
+        <div class="grid50">
+            <button class="field-space" (click)="userService.removeUser(userService.userList[userIndex].userId)">
+                Delete
+            </button>
+            <button class="field-space" (click)="toggleEdit(true, this.userService.userList[this.userIndex])">
+                Edit
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="editMode" class="user-page-border"
+    [ngStyle]="textColor">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Full Name: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.fullName"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.username"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                City: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.city"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Animal: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.favoriteAnimal"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Color: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.favoriteColor"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Gender: 
+            </label>
+            <div>
+                <input [(ngModel)]="userForEdit.gender"/>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid50">
+        <div></div>
+        <div class="grid50">
+            <button class="field-space" (click)="toggleEdit(false)">
+                Cancel
+            </button>
+            <button class="field-space" (click)="submitEdit()">
+                Save
+            </button>
+        </div>
+    </div>
+</div>

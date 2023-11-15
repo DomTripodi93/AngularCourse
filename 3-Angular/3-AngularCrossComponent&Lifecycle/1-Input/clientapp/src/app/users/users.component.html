@@ -1,10 +1,6 @@
-<!-- <div *ngFor="let user of userList; let index = index">
-    <app-user-single [user]="user" [index]="index"></app-user-single>
-</div> -->
 
-<!-- <ol *ngFor="let user of userList; let index = index"> -->
 <ol>
-    <li *ngFor="let user of userList; let index = index">
-        <app-user-single [user]="user" [index]="index"></app-user-single>
+    <li *ngFor="let user of userList">
+        <app-user-single [user]="user"></app-user-single>
     </li>
 </ol>

@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
-    styleUrls: ['./users.component.css']
+    styleUrls: ['./users.component.css', '../app.component.css']
 })
 export class UsersComponent {
+    testUser = "Test User";
     userList = [
         "Tucker Anselm",
         "Elmira Keddy",
@@ -32,6 +33,6 @@ export class UsersComponent {
         "Ashlee Amoore",
         "Julissa Bandey",
         "Merridie McPartling",
-        "Nanete Kitlee"        
+        "Nanete Kitlee"
     ]
 }

@@ -1,11 +1,8 @@
-<!-- <div *ngFor="let user of userList; let index = index">
-    <app-user-single [user]="user" [index]="index"></app-user-single>
-</div> -->
 
-<!-- <ol *ngFor="let user of userList; let index = index"> -->
 <ol>
-    <li *ngFor="let user of userServ.userList; let index = index">
-        <!-- <app-user-single [user]="user" [index]="index" (removeUser)="removeUser($event)"></app-user-single> -->
-        <app-user-single [user]="user" [index]="index"></app-user-single>
+    <li *ngFor="let user of userService.userList; let userIndex = index">
+        <app-user-single
+            [userIndex]="userIndex"
+            (deleteUser)="removeUser($event)"></app-user-single>
     </li>
 </ol>

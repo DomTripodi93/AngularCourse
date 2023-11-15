@@ -1,59 +1,58 @@
-const express = require('express');
-const fs = require('fs');
+import express from "express";
+import fs from "fs";
+
+// const express = require("express");
+
 const app = express();
 
-app
-    .get("/", (req, res) => {
-        res.send("Hello Angular Devs!");
+app.get("/", (req, res) => {
+        res.send("Hello Angular Devs!")
+        // return "Hello Angular Devs!";
     })
-    .get("/user/users", (req, res) => {
-        // const users = getUsers();
-        // console.log(users)
-        // res.send(users);
-        getUsers(res);
-    })
-    .get("/user/userSingle/:userId", (req, res) => {
-        getSingleUser(req, res);
-    })
-    .get("/user/userSearch/:fullName", (req, res) => {
-        getUsersSearch(req, res);
-    })
+    .get("/user/users", getUsers)
+    .get("/user/userSingle/:userId", getSingleUser)
+    .get("/user/userSearch/:searchText", getUserSearch)
 
-const server = app.listen(3000, () => {
-    console.log("Listening on: http://localhost:3000")
+console.log("test")
+
+app.listen(3000, ()=>{
+    console.log("Listening at: http://localhost:3000")
 })
 
-// function getUsers() {
-function getUsers(res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(fileResult);
-        let userList = JSON.parse(fileResult);
-        // return userList;
+function getUsers(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        // console.log(results);
+        let userList = JSON.parse(results);
         res.send(userList);
-    });
+    })
 }
 
 function getSingleUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(req);
-        let userList = JSON.parse(fileResult);
-        // let singleUser = userList.filter(record =>{
-        //     return record.userId === req.params.userId
-        // })[0]
-        let singleUser = userList.filter(record => {
-            return record.userId === userId
-        })[0];
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userId = +req.params.userId;
+        // "6"
+        // 6
+        // console.log(results);
+        let userList = JSON.parse(results);
+        
+        let singleUser = userList.filter(row => {
+            return row.userId === userId;
+        })[0]
 
         res.send(singleUser);
-    });
+    })
 }
 
-function getUsersSearch(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-        let userListFiltered = userList.filter(record =>{
-            return record.fullName.includes(req.params.fullName)
+function getUserSearch(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let searchText = req.params.searchText.toLowerCase();
+        
+        let userList = JSON.parse(results);
+        
+        let searchedUsers = userList.filter(row => {
+            return row.fullName.toLowerCase().includes(searchText);
         })
-        res.send(userListFiltered);
-    });
+
+        res.send(searchedUsers);
+    })
 }

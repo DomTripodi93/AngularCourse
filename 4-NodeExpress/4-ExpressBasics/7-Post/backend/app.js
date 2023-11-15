@@ -1,97 +1,83 @@
-const express = require('express');
-const fs = require('fs');
+import express from "express";
+import fs from "fs";
+
+// const express = require("express");
+
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
-app
-    .get("/", (req, res) => {
-        res.send("Hello Angular Devs!");
+app.get("/", (req, res) => {
+        res.send("Hello Angular Devs!")
+        // return "Hello Angular Devs!";
     })
-    .get("/user/users", (req, res) => {
-        // const users = getUsers();
-        // console.log(users)
-        // res.send(users);
-        getUsers(res);
-    })
-    .get("/user/userSingle/:userId", (req, res) => {
-        getSingleUser(req, res);
-    })
-    .get("/user/userSearch/:fullName", (req, res) => {
-        getUsersSearch(req, res);
-    })
-    .post("/user/userAdd", (req, res) => {
-        addNewUser(req, res);
-    })
+    .get("/user/users", getUsers)
+    .get("/user/userSingle/:userId", getSingleUser)
+    .get("/user/userSearch/:searchText", getUserSearch)
+    .post("/user/addUser", addNewUser)
 
-const server = app.listen(3000, () => {
-    console.log("Listening on: http://localhost:3000")
+console.log("test")
+
+app.listen(3000, ()=>{
+    console.log("Listening at: http://localhost:3000")
 })
 
-// function getUsers() {
-function getUsers(res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(fileResult);
-        let userList = JSON.parse(fileResult);
-        // return userList;
+function getUsers(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        // console.log(results);
+        let userList = JSON.parse(results);
         res.send(userList);
-    });
+    })
 }
 
 function getSingleUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(req);
-        let userList = JSON.parse(fileResult);
-        // let singleUser = userList.filter(record =>{
-        //     return record.userId === req.params.userId
-        // })[0]
-        let singleUser = userList.filter(record => {
-            return record.userId === userId
-        })[0];
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userId = +req.params.userId;
+        // "6"
+        // 6
+        // console.log(results);
+        let userList = JSON.parse(results);
+        
+        let singleUser = userList.filter(row => {
+            return row.userId === userId;
+        })[0]
 
         res.send(singleUser);
-    });
+    })
 }
 
-function getUsersSearch(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-        let userListFiltered = userList.filter(record =>{
-            return record.fullName.includes(req.params.fullName)
+function getUserSearch(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let searchText = req.params.searchText.toLowerCase();
+        
+        let userList = JSON.parse(results);
+        
+        let searchedUsers = userList.filter(row => {
+            return row.fullName.toLowerCase().includes(searchText);
         })
-        res.send(userListFiltered);
-    });
+
+        res.send(searchedUsers);
+    })
 }
 
 function addNewUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-        // console.log(req);
-        // console.log(typeof (req.body));
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userList = JSON.parse(results);
+
         let newUser = req.body;
-        newUser.userId = userList[userList.length - 1].userId + 1;
-        // console.log(newUser)
-        userList.push(req.body);
 
-        // writeUserFile(userList, res);
-        writeFile(userList, "users").then(() => {
-            res.send(newUser);
+        //Set the userId
+        userList.sort((a, b) => {
+            return a.userId > b.userId ? 1 : -1;
         })
-    });
-}
 
-// function writeUserFile(updatedData, res) {
-// function writeUserFile(updatedData) {
-function writeFile(updatedData, fileName) {
-    return new Promise(resolve => {
-        // fs.writeFile("users.json", JSON.stringify(updatedData), (err) => {
-        fs.writeFile(fileName + ".json", JSON.stringify(updatedData), (err) => {
-            // res.send(updatedData);
-            if (!err) {
-                resolve();
-            } else {
-                console.log(err);
-            }
-        });
+        let latestUserId = userList[userList.length - 1].userId;
+
+        newUser.userId = latestUserId + 1;
+
+
+        userList.push(newUser);
+
+        res.send(userList);
     })
 }

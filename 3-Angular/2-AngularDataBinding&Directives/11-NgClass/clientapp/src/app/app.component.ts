@@ -6,66 +6,77 @@ import { Component, HostListener } from '@angular/core';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title: string = 'clientapp';
-    someValue: number = 12;
+    title = 'ClientApp';
+    helloWorld: string = "Hello World";
+    //string interpolation
     clicked: number = 0;
     doubleClicked: number = 0;
-    valuesToIterate: number[] = [4, 5, 1, 3, 12]
-    contextMenuOptions: any = {
-        showMenu: false,
-        menuX: 0,
-        menuY: 0
-    }
-    contextClick: boolean = false;
-    toolTipOptions: any = {
-        showToolTip: false,
-        menuX: 0,
-        menuY: 0
+
+    // willShowBlock: boolean = true;
+    willShowBlock: boolean = false;
+
+    contextMenuInfo: any = {
+        pageX: 0,
+        pageY: 0,
+        willShow: false
     }
 
-    // clickMethod() {
-    clickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("clicked")
+    tooltipInfo: any = {
+        pageX: 0,
+        pageY: 0,
+        willShow: false
+    }
+
+    contextClicked: boolean = false;
+
+    valuesToLoopThrough: number[] = [
+        4, 
+        2,
+        5,
+        8
+    ];
+
+    incrementClicked() {
         this.clicked += 1;
     }
 
-    // doubleClickMethod() {
-    doubleClickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("double clicked")
+    incrementDoubleClicked() {
         this.doubleClicked += 1;
     }
 
-    rightClickMethod(event: MouseEvent) {
+    toggleContextMenu(showContextMenu: boolean, event: MouseEvent | null = null) {
         console.log(event);
-        event.preventDefault();
-        this.contextMenuOptions.menuX = event.clientX;
-        this.contextMenuOptions.menuY = event.clientY;
-        this.contextMenuOptions.showMenu = true;
-    }
-
-    @HostListener('document:click')
-    hideContextMenu() {
-        console.log("hit")
-        this.contextMenuOptions.showMenu = false;
-    }
-
-    onContextClick() {
-        if (!this.contextClick) {
-            this.contextClick = true;
-            setTimeout(() =>{
-                this.contextClick = false;
-            }, 20)
+        if (event !== null) {
+            event.preventDefault();
+            this.contextMenuInfo.pageX = event.pageX
+            this.contextMenuInfo.pageY = event.pageY
         }
+        this.contextMenuInfo.willShow = showContextMenu;
     }
 
-    onMouseMove(event: MouseEvent, over: boolean) {
-        // console.log(event);
-        this.toolTipOptions.showToolTip = over;
-        // this.toolTipOptions.menuX = event.clientX;
-        // this.toolTipOptions.menuY = event.clientY;
-        this.toolTipOptions.menuX = event.clientX - 55;
-        this.toolTipOptions.menuY = event.clientY + 15;
+    @HostListener("document:click")
+    closeContextMenu(){
+        setTimeout(() => {
+            if (!this.contextClicked){
+                this.toggleContextMenu(false);
+            }
+        }, 10)
     }
+
+    contextClick() {
+        this.contextClicked = true;
+        setTimeout(() => {
+            this.contextClicked = false;
+        }, 20)
+    }
+
+    onMouseMove(inside: boolean, event: MouseEvent) {
+        if (this.tooltipInfo.willShow !== inside) {
+            this.tooltipInfo.willShow = inside;
+        }
+        this.tooltipInfo.pageX = event.pageX - 50;
+        this.tooltipInfo.pageY = event.pageY + 15;
+        console.log(event);
+    }
+
 }

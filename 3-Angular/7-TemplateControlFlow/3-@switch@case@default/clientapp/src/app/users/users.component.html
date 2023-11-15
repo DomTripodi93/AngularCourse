@@ -1,0 +1,34 @@
+
+<div class="page-width">
+    <div class="field-space">
+        <button (click)="addNewUser()" >
+            Add New User
+        </button>
+    </div>
+    <div class="field-space">
+        <input [(ngModel)]="userSearch" />
+        <button (click)="getUsers()" >
+            Update List
+        </button>
+    </div>
+    @if(addingNewUser){
+        <app-user-single
+            [addMode]="true"></app-user-single>
+    }
+    <!-- <div *ngIf="addingNewUser">
+        <app-user-single
+            [addMode]="true"></app-user-single>
+    </div> -->
+    @for(user of userService.userList; let userIndex = $index; track userIndex) {
+        <app-user-single
+            [userIndex]="userIndex"></app-user-single>
+    } @empty {
+        <div>
+            No users found
+        </div>
+    }
+    <!-- <div *ngFor="let user of userService.userList; let userIndex = index">
+        <app-user-single
+            [userIndex]="userIndex"></app-user-single>
+    </div> -->
+</div>

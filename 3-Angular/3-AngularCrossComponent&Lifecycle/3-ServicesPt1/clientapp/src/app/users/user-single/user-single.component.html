@@ -1,7 +1,6 @@
-<!-- {{(index + 1) + ": " + user}} -->
-{{user}}
- -
-<!-- <button (click)="removeUser.emit(index)"> -->
-<button (click)="removeUser()">
-    Remove
+
+{{userService.userList[userIndex]}}
+
+<button (click)="deleteUser.emit(userIndex)">
+    Delete
 </button>

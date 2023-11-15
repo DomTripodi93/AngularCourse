@@ -1,24 +1,29 @@
-.context-menu {
-    border: solid black 1px;
-    position: absolute;
-    background-color: rgb(234, 228, 228);
+.spaced {
+    margin: 15px;
 }
 
-.page {
-    padding: 20px;
-    /* height: 100vh; */
-}
-
-.mouse-over-block {
-    background-color: aquamarine;
-    height: 200px;
-    width: 400px;
-}
-
-.mouse-over-block-active {
+.block-of-color {
     background-color: blue;
-    height: 200px;
-    width: 400px;
+    width: 300px;
+    height: 300px;
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(236, 236, 236);
+    padding: 10px;
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(221, 255, 213);
+    padding: 10px;
+    width: 100px;
+}
+
+.tooltip-color {
+    background-color: purple;
     cursor: pointer;
 }
-

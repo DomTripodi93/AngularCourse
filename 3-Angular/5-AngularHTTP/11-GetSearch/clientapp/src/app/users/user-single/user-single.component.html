@@ -1,0 +1,133 @@
+<div *ngIf="!editMode && !addMode" class="user-page-border"
+    [ngStyle]="textColor">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Full Name: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].fullName}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].username}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                City: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].city}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Animal: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].favoriteAnimal}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Color: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].favoriteColor}}
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Gender: 
+            </label>
+            <div>
+                {{userService.userList[userIndex].gender}}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid50">
+        <div></div>
+        <div class="grid50">
+            <button class="field-space" (click)="userService.removeUser(userService.userList[userIndex].userId)">
+                Delete
+            </button>
+            <button class="field-space" (click)="toggleEdit(true, this.userService.userList[this.userIndex])">
+                Edit
+            </button>
+        </div>
+    </div>
+</div>
+<form *ngIf="editMode || addMode" class="user-page-border" (ngSubmit)="submitEdit()"
+    [ngStyle]="textColor">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Full Name: 
+            </label>
+            <div>
+                <input name="fullName" [(ngModel)]="userForEdit.fullName"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                <input name="username" [(ngModel)]="userForEdit.username"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                City: 
+            </label>
+            <div>
+                <input name="city" [(ngModel)]="userForEdit.city"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Animal: 
+            </label>
+            <div>
+                <input name="favoriteAnimal" [(ngModel)]="userForEdit.favoriteAnimal"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Favorite Color: 
+            </label>
+            <div>
+                <input name="favoriteColor" [(ngModel)]="userForEdit.favoriteColor"/>
+            </div>
+        </div>
+        <div class="field-space">
+            <label class="bold-text">
+                Gender: 
+            </label>
+            <div>
+                <input name="gender" [(ngModel)]="userForEdit.gender"/>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid50">
+        <div></div>
+        <div class="grid50">
+            <button class="field-space" type="button" (click)="toggleEdit(false)">
+                Cancel
+            </button>
+            <button class="field-space" type="submit">
+                <!-- (click)="submitEdit()"> -->
+                Save
+            </button>
+        </div>
+    </div>
+</form>

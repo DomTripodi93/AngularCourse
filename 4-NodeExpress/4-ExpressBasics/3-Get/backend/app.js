@@ -1,28 +1,25 @@
-const express = require('express');
-const fs = require('fs');
+import express from "express";
+import fs from "fs";
+
+// const express = require("express");
+
 const app = express();
 
-app
-    .get("/", (req, res) => {
-        res.send("Hello Angular Devs!");
+app.get("/", (req, res) => {
+        res.send("Hello Angular Devs!")
+        // return "Hello Angular Devs!";
     })
-    .get("/user/users", (req, res) => {
-        // const users = getUsers();
-        // console.log(users)
-        // res.send(users);
-        getUsers(res);
-    })
+    .get("/users", getUsers)
 
-const server = app.listen(3000, () => {
-    console.log("Listening on: http://localhost:3000")
+console.log("test")
+
+app.listen(3000, ()=>{
+    console.log("Listening at: http://localhost:3000")
 })
 
-// function getUsers() {
-function getUsers(res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(fileResult);
-        let userList = JSON.parse(fileResult);
-        // return userList;
-        res.send(userList);
-    });
+function getUsers(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        // console.log(results);
+        res.send(results);
+    })
 }

@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserService } from '../services/user.service';
+import { Component } from '@angular/core';
+import { UserService } from '../services/user-service.service';
 
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
-    styleUrls: ['./users.component.css']
+    styleUrls: ['./users.component.css', '../app.component.css']
 })
 export class UsersComponent {
+    testUser = "Test User";
     // userList = [
     //     "Tucker Anselm",
     //     "Elmira Keddy",
@@ -33,13 +34,16 @@ export class UsersComponent {
     //     "Ashlee Amoore",
     //     "Julissa Bandey",
     //     "Merridie McPartling",
-    //     "Nanete Kitlee"        
-    // ]
-    constructor(
-        public userServ: UserService
-    ) { }
+    //     "Nanete Kitlee"
+    // ];
 
-    // removeUser(index: number) {
-    //     this.userList.splice(index, 1);
-    // }
+    constructor(
+        public userService: UserService
+    ) {}
+
+    
+
+    removeUser(index: number) {
+        this.userService.userList.splice(index, 1);
+    }
 }
