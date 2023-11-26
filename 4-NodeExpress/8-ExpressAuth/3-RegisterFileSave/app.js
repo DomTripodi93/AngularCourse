@@ -1,229 +1,304 @@
-const express = require('express');
-const crypto = require('crypto');
-const fs = require('fs');
+import express from "express";
+import fs from "fs";
+import cors from "cors";
+import crypto from "crypto";
+
+// const express = require("express");
+
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
-app
-    .get("/", (req, res) => {
-        res.send("Hello Angular Devs!");
-    })
-    .get("/user/users", (req, res) => {
-        // const users = getUsers();
-        // console.log(users)
-        // res.send(users);
-        getUsers(res);
-    })
-    .get("/user/userSingle/:userId", (req, res) => {
-        getSingleUser(req, res);
-    })
-    .get("/user/userSearch/:fullName", (req, res) => {
-        getUsersSearch(req, res);
-    })
-    .post("/user/userAdd", (req, res) => {
-        addNewUser(req, res);
-    })
-    .put("/user/userEdit", (req, res) => {
-        editUser(req, res);
-    })
-    .delete("/user/userDelete/:userId", (req, res) => {
-        deleteUser(req, res);
-    })
-    .post("/auth/register", (req, res) => {
-        postRegistration(req, res);
-    })
+app.get("/", (req, res) => {
+    res.send("Hello Angular Devs!")
+    // return "Hello Angular Devs!";
+})
+    .get("/user/users", getUsers)
+    .get("/user/userSingle/:userId", getSingleUser)
+    .get("/user/userSearch/:searchText", getUserSearch)
+    // .post("/user/addUser", addNewUser)
+    .put("/user/editUser", editUser)
+    .delete("/user/deleteUser/:userId", deleteUser)
+    .post("/auth/register", registerNewUser)
 
-const server = app.listen(3000, () => {
-    console.log("Listening on: http://localhost:3000")
+console.log("test")
+
+app.listen(3000, () => {
+    console.log("Listening at: http://localhost:3000")
 })
 
-// function getUsers() {
-function getUsers(res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(fileResult);
-        let userList = JSON.parse(fileResult);
-        // return userList;
+function getUsers(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        // console.log(results);
+        let userList = JSON.parse(results);
         res.send(userList);
-    });
+    })
 }
 
 function getSingleUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        // console.log(req);
-        let userList = JSON.parse(fileResult);
-        // let singleUser = userList.filter(record =>{
-        //     return record.userId === req.params.userId
-        // })[0]
-        let singleUser = getUserById(userList, +req.params.userId);
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userId = +req.params.userId;
+        // "6"
+        // 6
+        // console.log(results);
+        let userList = JSON.parse(results);
+
+        let singleUser = userList.filter(row => {
+            return row.userId === userId;
+        })[0]
+
         res.send(singleUser);
-    });
-}
-
-function getUsersSearch(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-        let userListFiltered = userList.filter(record => {
-            return record.fullName.includes(req.params.fullName)
-        })
-        res.send(userListFiltered);
-    });
-}
-
-function addNewUser(req, res) {
-    addNewUserToFile(req.body).then(newUser =>{
-        res.send(newUser);
     })
 }
 
-function addNewUserToFile(newUser) {
-    return new Promise(resolve =>{
-        fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-            let userList = JSON.parse(fileResult);
-            newUser.userId = userList[userList.length - 1].userId + 1;
-            userList.push(newUser);
-            
-            writeFile(userList, "users").then(() => {
-                resolve(newUser);
-            })
-        });
+function getUserSearch(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let searchText = req.params.searchText.toLowerCase();
+
+        let userList = JSON.parse(results);
+
+        let searchedUsers = userList.filter(row => {
+            return row.fullName.toLowerCase().includes(searchText);
+        })
+
+        res.send(searchedUsers);
     })
 }
 
-function editUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-        let userFromBody = req.body;
+function registerNewUser(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userList = JSON.parse(results);
+        let { password, passwordConfirm, ...newUser } = req.body;
 
-        const userFromFile = getUserById(userList, req.body.userId)
-        let userIndex = userList.indexOf(userFromFile);
-        // console.log(userIndex)
+        let usernameIsUnique = userList.filter(row => {
+            return row.username === newUser.username;
+        }).length === 0;
 
-        userList.splice(userIndex, 1, userFromBody)
-
-        // writeUserFile(userList, res);
-        writeFile(userList, "users").then(() => {
-            res.send(userFromBody);
-        })
-    });
-}
-
-function deleteUser(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, fileResult) => {
-        let userList = JSON.parse(fileResult);
-
-        const userFromFile = getUserById(userList, +req.params.userId);
-        let userIndex = userList.indexOf(userFromFile);
-        // console.log(userFromFile)
-
-        // console.log(userIndex);
-        userList.splice(userIndex, 1)
-        // console.log(userList)
-
-        // writeUserFile(userList, res);
-        writeFile(userList, "users").then(() => {
-            // res.send(req.params.userId);
-            res.send({ deleted: req.params.userId });
-        })
-    });
-}
-
-// function writeUserFile(updatedData, res) {
-// function writeUserFile(updatedData) {
-function writeFile(updatedData, fileName) {
-    return new Promise(resolve => {
-        // fs.writeFile("users.json", JSON.stringify(updatedData), (err) => {
-        fs.writeFile(fileName + ".json", JSON.stringify(updatedData), (err) => {
-            // res.send(updatedData);
-            if (!err) {
-                resolve();
-            } else {
-                console.log(err);
-            }
-        });
-    })
-}
-
-function getUserById(userList, userId) {
-    return userList.filter(record => {
-        return record.userId === userId
-    })[0]
-}
-
-function postRegistration(req, res) {
-    // console.log(userForRegister)
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, userFile) => {
-        let userList = JSON.parse(userFile);
-        let userMatches = userList.filter(record => {
-            return record.username === username;
-        })
-        if (userMatches.length === 0) {
-            let userForRegister = req.body;
-            if (userForRegister.auth.password === userForRegister.auth.passwordConfirm) {
-                res.send("Completed Registration");
-            }
-        }
-    })
-}
-
-function postRegistration(req, res) {
-    fs.readFile("users.json", { encoding: 'utf-8' }, (err, userFile) => {
-        let userList = JSON.parse(userFile);
-        let userMatches = userList.filter(record => {
-            return record.username === username;
-        })
-        if (userMatches.length === 0) {
-            let userForRegister = req.body;
-            if (userForRegister.auth.password === userForRegister.auth.passwordConfirm) {
-                // console.log(userForRegister)
-                let salt = crypto.randomBytes(128).toString('base64');
-                getHash(userForRegister.auth.password, salt).then(hash => {
-                    const userAuth = {
-                        username: userForRegister.user.username,
-                        passwordSalt: salt,
-                        passwordHash: hash
-                    };
-                    Promise.all(addNewUserAuthToFile(userAuth), addNewUserToFile(req.body.user)).then(result =>{
-                        res.send(result[1]);
-                    });
+        if (usernameIsUnique && password === passwordConfirm) {
+            let salt = crypto.randomBytes(8).toString("hex");
+            getHash(password, salt).then(passwordHash => {
+                let authObject = {
+                    username: newUser.username,
+                    passwordHash: passwordHash,
+                    passwordSalt: salt
+                }
+                Promise.all([
+                    addUserToFile(userList, newUser), 
+                    addAuthObjectToFile(authObject)
+                ]).then(fileWriteResponse =>{
+                    if (fileWriteResponse[0] && fileWriteResponse[1]) {
+                        res.send(fileWriteResponse[0]);
+                    } else {
+                        res.send({ "message": "Failed to save registration to file!" })
+                    }
                 })
+            })
+            // addUserToFile(userList, newUser);
+        } else {
+            if (password !== passwordConfirm) {
+                res.send({ "message": "Your password and password confirm do not match!" })
+            } else { // !usernameIsUnique
+                res.send({ "message": "User with username already exists!" })
             }
         }
+
+
     })
 }
 
-function addNewUserAuthToFile(newUserAuth) {
-    return new Promise(resolve =>{
-        fs.readFile("auth.json", { encoding: 'utf-8' }, (err, authFile) => {
-            let authList = JSON.parse(authFile);
-            authList.push(newUserAuth);
-            writeFile(authList, "auth").then(() => {
-                resolve();
+function addAuthObjectToFile(newAuthObject) {
+    return new Promise(resolve => {
+
+        fs.readFile("auth.json", { encoding: "utf-8" }, (err, results) => {
+            let authList = JSON.parse(results);
+            authList.push(newAuthObject);
+
+            let authListText = JSON.stringify(authList);
+
+            writeToFile("auth.json", authListText).then(didWriteToFile => {
+                if (didWriteToFile) {
+                    resolve(newAuthObject)
+                } else {
+                    resolve(false);
+                }
             })
-        });
+        })
+    })
+}
+
+function addUserToFile(userList, newUser) {
+    return new Promise(resolve => {
+        //Set the userId
+        userList.sort((a, b) => {
+            return a.userId > b.userId ? 1 : -1;
+        })
+
+        let latestUserId = userList[userList.length - 1].userId;
+
+        newUser.userId = latestUserId + 1;
+
+
+        userList.push(newUser);
+
+        let userListText = JSON.stringify(userList);
+
+        writeToFile("users.json", userListText).then(didWriteToFile => {
+            if (didWriteToFile) {
+                resolve(newUser)
+            } else {
+                resolve(false);
+            }
+        })
     })
 }
 
 function getHash(password, salt) {
     return new Promise(resolve => {
-        let iterations = 10000;
-        let keyLength = 64;
-
+        let keyLength = 20;
+        let iterations = 600000
         crypto.pbkdf2(
             password,
             salt,
             iterations,
             keyLength,
-            'sha512',
+            "sha512",
             (err, derivedKey) => {
-                if (!err) {
-                    let hash = derivedKey.toString('hex')
-                    resolve(hash);
-                } else {
+                if (err) {
                     console.log(err);
+                    resolve(err);
+                } else {
+                    let hash = derivedKey.toString("hex");
+                    resolve(hash);
                 }
-            }
-        );
+            })
     })
 }
 
+// function addNewUser(req, res) {
+//     fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+//         let userList = JSON.parse(results);
+
+//         let newUser = req.body;
+
+//         let usernameIsUnique = userList.filter(row => {
+//             return row.username === newUser.username;
+//         }).length === 0;
+
+//         if (usernameIsUnique) {
+//             //Set the userId
+//             userList.sort((a, b) => {
+//                 return a.userId > b.userId ? 1 : -1;
+//             })
+
+//             let latestUserId = userList[userList.length - 1].userId;
+
+//             newUser.userId = latestUserId + 1;
+
+
+//             userList.push(newUser);
+
+//             let userListText = JSON.stringify(userList);
+
+//             writeToFile("users.json", userListText).then(didWriteToFile => {
+//                 if (didWriteToFile) {
+//                     res.send({"message": "Request was successful"});
+//                 } else {
+//                     res.send({"message": "Request failed to save"});
+//                 }
+//             })
+//         } else {
+//             res.send({"message": "User with username already exists!"})
+//         }
+
+
+//     })
+// }
+
+
+function editUser(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userList = JSON.parse(results);
+
+        let userForEdit = req.body;
+
+        let userId = userForEdit.userId
+
+        let usernameIsUnique = userList.filter(row => {
+            return row.username === userForEdit.username && row.userId !== userId;
+        }).length === 0;
+
+        if (usernameIsUnique) {
+            let userListEdited = userList.filter((row) => {
+                return row.userId !== userId;
+            })
+
+            userListEdited.push(userForEdit);
+
+            //Sort before we save
+            userListEdited.sort((a, b) => {
+                return a.userId > b.userId ? 1 : -1;
+            })
+
+            let userListText = JSON.stringify(userListEdited);
+
+            writeToFile("users.json", userListText).then(didWriteToFile => {
+                if (didWriteToFile) {
+                    res.send({ "message": "Request was successful" });
+                } else {
+                    res.send({ "message": "Request failed to save" });
+                }
+            })
+        } else {
+            res.send({ "message": "User with username already exists!" })
+        }
+
+
+    })
+}
+
+
+function deleteUser(req, res) {
+    fs.readFile("users.json", { encoding: "utf-8" }, (err, results) => {
+        let userList = JSON.parse(results);
+
+        let userId = +req.params.userId
+        // console.log("Request User Id: " + userId);
+
+        let userListAfterDelete = userList.filter((row) => {
+            // if (row.userId === 5) {
+            //     console.log("Explicitly Equal: " + (row.userId === userId))
+            //     console.log("Implicitly Equal: " + (row.userId == userId))
+            // }
+            return row.userId !== userId;
+        })
+        // console.log("Length of original list: " + userList.length);
+        // console.log("Length of filtered list: " + userListAfterDelete.length);
+
+        let userListText = JSON.stringify(userListAfterDelete);
+
+        writeToFile("users.json", userListText).then(didWriteToFile => {
+            if (didWriteToFile) {
+                res.send({ "message": "Request was successful" });
+            } else {
+                res.send({ "message": "Request failed to save" });
+            }
+        })
+
+    })
+}
+
+function writeToFile(fileName, fileText) {
+    return new Promise((resolve) => {
+        fs.writeFile(fileName, fileText, (err) => {
+            if (err) {
+                console.log(err);
+                // resolve(err);
+                resolve(false);
+            } else {
+                // resolve(fileText);
+                resolve(true);
+            }
+        })
+    })
+}

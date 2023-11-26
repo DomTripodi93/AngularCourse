@@ -11,7 +11,7 @@
             Update List
         </button>
     </div>
-    @if(addingNewUser){
+    @if(addingNewUser) {
         <app-user-single
             [addMode]="true"></app-user-single>
     }
@@ -19,12 +19,13 @@
         <app-user-single
             [addMode]="true"></app-user-single>
     </div> -->
-    @for(user of userService.userList; let userIndex = $index; track userIndex) {
+    @for(user of userService.userList; track user.username; let userIndex = $index) {
+    <!-- @for(user of userService.userList; let userIndex = $index; track userIndex) { -->
         <app-user-single
             [userIndex]="userIndex"></app-user-single>
     } @empty {
         <div>
-            No users found
+            No users found!
         </div>
     }
     <!-- <div *ngFor="let user of userService.userList; let userIndex = index">

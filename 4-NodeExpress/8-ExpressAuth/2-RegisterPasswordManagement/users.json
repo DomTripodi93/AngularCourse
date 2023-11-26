@@ -8998,5 +8998,23 @@
         "gender": "Male",
         "favoriteColor": "Orange",
         "favoriteAnimal": "Tortoise, desert"
+    },
+    {
+        "userId": 1001,
+        "username": "testuser",
+        "fullName": "test user",
+        "city": "Digby",
+        "gender": "Male",
+        "favoriteColor": "Orange",
+        "favoriteAnimal": "Tortoise, desert"
+    },
+    {
+        "userId": 1002,
+        "username": "testuser2",
+        "fullName": "test users",
+        "city": "Digby",
+        "gender": "Male",
+        "favoriteColor": "Orange",
+        "favoriteAnimal": "Tortoise, desert"
     }
 ]

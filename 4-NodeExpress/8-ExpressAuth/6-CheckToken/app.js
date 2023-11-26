@@ -257,14 +257,18 @@ function checkAuth(req, res, next) {
     if (req.method === "OPTIONS") {
         next();
     } else {
-        try {
+        if (
+            req.headers.authorization
+            && req.headers.authorization.includes("Bearer ")
+        ) {
             const token = req.headers.authorization.split(" ")[1];
             const decodedToken = jwt.verify(token, tokenKey);
+            console.log(decodedToken);
             req.userId = decodedToken.userId;
             req.username = decodedToken.username;
             req.fullName = decodedToken.fullName;
             next();
-        } catch (error) {
+        } else {
             res.status(401).json({ message: "Unauthorized: No Valid Token" });
         }
     }

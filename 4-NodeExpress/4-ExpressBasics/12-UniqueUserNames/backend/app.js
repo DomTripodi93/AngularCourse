@@ -7,8 +7,7 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
-
-app.use(cors())
+app.use(cors());
 
 app.get("/", (req, res) => {
         res.send("Hello Angular Devs!")
@@ -71,27 +70,36 @@ function addNewUser(req, res) {
 
         let newUser = req.body;
 
-        //Set the userId
-        userList.sort((a, b) => {
-            return a.userId > b.userId ? 1 : -1;
-        })
+        let usernameIsUnique = userList.filter(row => {
+            return row.username === newUser.username;
+        }).length === 0;
 
-        let latestUserId = userList[userList.length - 1].userId;
+        if (usernameIsUnique) {
+            //Set the userId
+            userList.sort((a, b) => {
+                return a.userId > b.userId ? 1 : -1;
+            })
+    
+            let latestUserId = userList[userList.length - 1].userId;
+    
+            newUser.userId = latestUserId + 1;
+    
+    
+            userList.push(newUser);
+    
+            let userListText = JSON.stringify(userList);
+    
+            writeToFile("users.json", userListText).then(didWriteToFile => {
+                if (didWriteToFile) {
+                    res.send({"message": "Request was successful"});
+                } else {
+                    res.send({"message": "Request failed to save"});
+                }
+            })
+        } else {
+            res.send({"message": "User with username already exists!"})
+        }
 
-        newUser.userId = latestUserId + 1;
-
-
-        userList.push(newUser);
-
-        let userListText = JSON.stringify(userList);
-
-        writeToFile("users.json", userListText).then(didWriteToFile => {
-            if (didWriteToFile) {
-                res.send({"message": "Request was successful"});
-            } else {
-                res.send({"message": "Request failed to save"});
-            }
-        })
 
     })
 }
@@ -105,26 +113,35 @@ function editUser(req, res) {
 
         let userId = userForEdit.userId
 
-        let userListEdited = userList.filter((row) => {
-            return row.userId !== userId;
-        })
+        let usernameIsUnique = userList.filter(row => {
+            return row.username === userForEdit.username && row.userId !== userId;
+        }).length === 0;
 
-        userListEdited.push(userForEdit);
-        
-        //Sort before we save
-        userListEdited.sort((a, b) => {
-            return a.userId > b.userId ? 1 : -1;
-        })
+        if (usernameIsUnique) {
+            let userListEdited = userList.filter((row) => {
+                return row.userId !== userId;
+            })
+    
+            userListEdited.push(userForEdit);
+            
+            //Sort before we save
+            userListEdited.sort((a, b) => {
+                return a.userId > b.userId ? 1 : -1;
+            })
+    
+            let userListText = JSON.stringify(userListEdited);
+    
+            writeToFile("users.json", userListText).then(didWriteToFile => {
+                if (didWriteToFile) {
+                    res.send({"message": "Request was successful"});
+                } else {
+                    res.send({"message": "Request failed to save"});
+                }
+            })
+        } else {
+            res.send({"message": "User with username already exists!"})
+        }
 
-        let userListText = JSON.stringify(userListEdited);
-
-        writeToFile("users.json", userListText).then(didWriteToFile => {
-            if (didWriteToFile) {
-                res.send({"message": "Request was successful"});
-            } else {
-                res.send({"message": "Request failed to save"});
-            }
-        })
 
     })
 }
