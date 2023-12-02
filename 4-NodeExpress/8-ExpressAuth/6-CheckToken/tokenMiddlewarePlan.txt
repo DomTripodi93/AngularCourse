@@ -1,0 +1,16 @@
+
+Allow all "OPTIONS" requests 
+- These come from the browser and will not have a token
+
+Allow Login and Register 
+- These will happen before the user logs in, and will not have a token
+
+Check if a token is included in the request, and is in valid "Bearer" format
+- Reject the request if it is not included or is not in valid format
+
+Check if the token is valid and not expired
+- Reject if token is not verified by the signature, or is expired
+
+Add claims to request object
+- Verification will return a claims object
+- This object can be attached to the request and referenced later

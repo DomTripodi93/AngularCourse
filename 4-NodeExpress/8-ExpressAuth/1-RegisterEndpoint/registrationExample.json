@@ -1,0 +1,10 @@
+{
+    "username": "testUser3",
+    "password": "",
+    "passwordConfirm": "",
+    "fullName": "Test User",
+    "city": "Test",
+    "gender": "Male",
+    "favoriteColor": "Blue",
+    "favoriteAnimal": "Unicorn"
+}
