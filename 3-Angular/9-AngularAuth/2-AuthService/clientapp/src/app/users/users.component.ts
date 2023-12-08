@@ -1,68 +1,98 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { User } from 'src/app/models/User';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { UserService } from '../services/user-service.service';
+import { HttpErrorResponse } from '@angular/common/http';
+// import { User } from '../models/User.model';
+import { User } from '../models/User.model';
+import { Observer, Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
-    styleUrls: ['./users.component.css']
+    styleUrls: ['./users.component.css', '../app.component.css']
 })
-export class UsersComponent implements OnInit, OnDestroy {
-    userListSubscription: Subscription = new Subscription();
+export class UsersComponent implements OnInit, OnDestroy{
+    testUser = "Test User";
+    usersHaveChangedSubscription: Subscription = new Subscription();
+    addingNewUser: boolean = false;
+    userSearch: string = "";
+    // userList = [
+    //     "Tucker Anselm",
+    //     "Elmira Keddy",
+    //     "Eveline Grandisson",
+    //     "Berry Wildes",
+    //     "Quintus Hastings",
+    //     "Harp Antonignetti",
+    //     "Vite Playfair",
+    //     "Noelle Dowears",
+    //     "Delcine Lubbock",
+    //     "Auberta Skerrett",
+    //     "Constantin Cosgry",
+    //     "Loleta Grenfell",
+    //     "Nadeen Matchett",
+    //     "Elli Galliver",
+    //     "Gayla Hawtin",
+    //     "Liam Antwis",
+    //     "Merilyn Baumford",
+    //     "Lilas Colquyte",
+    //     "Roi Kinworthy",
+    //     "Patin Flecknoe",
+    //     "Etienne Vedeneev",
+    //     "Diane Evesque",
+    //     "Ashlee Amoore",
+    //     "Julissa Bandey",
+    //     "Merridie McPartling",
+    //     "Nanete Kitlee"
+    // ];
 
     constructor(
-        public userServ: UserService,
-        // private router: Router
-    ) { }
+        public userService: UserService
+    ) {}
 
-    //ngAfterContentInit - Directives like ngIf ngFor ngStyle prepared in the template (only first ngDoCheck)
-    //ngAfterContentChecked - Directives etc. have been checked (every ngDoCheck)
-    //ngAfterViewInit - Views and Child views (templates) have been initialized (only first ngDoCheck)
-    //ngAfterViewChecked - Views and Child views (templates) have been checked (every ngDoCheck)
-    //ngOnChanges - Anything has been checked (every ngDoCheck)
-    ngOnInit() { // - Data-bound and Input properties are provided to create the component (only first ngDoCheck)
-        console.log("The users component exists");
-        //Get a List of users - prepare some piece of data that the component uses etc.
-        this.getUserList();
-        this.userListSubscription = this.userServ.userListHasChanged.subscribe(()=>{
-            this.getUserList();
-        })
-    }
-
-    getUserList() {
-        // this.userServ.getUsers().subscribe((res) =>{
-        //     console.log(res);
-        // }, (err) =>{
-        //     console.log(err);
-        //     alert("An error has occurred! Please try again later!")
-        // })
-        this.userServ.getUsers().subscribe(
-            {
-                // next: (res) => {
-                next: (res: User[]) => {
-                    // console.log(res);
-                    // res.forEach(user =>{
-                    // res.forEach((user: User) => {
-                    //     console.log(user.username);
-                    // })
-                    this.userServ.userList = res;
-                },
-                error: (err) => {
-                    console.log(err);
-                    alert("An error has occurred! Please try again later!")
+    ngOnInit(): void {
+        this.getUsers();
+        this.usersHaveChangedSubscription = this.userService.usersHaveChanged
+            .subscribe((changesCancelled: boolean) => {
+                if (!changesCancelled) {
+                    this.getUsers();
                 }
-            }
-        )
+                this.addingNewUser = false;
+            })
+        console.log("component has been created");
     }
 
-    // navigateToList() {
-    //     this.router.navigate(["list"])
+    addNewUser() {
+        this.addingNewUser = true;
+    }
+
+    getUsers(){
+        let responseObject: Partial<Observer<User[]>> = { 
+            next: (res: User[]) => {
+                this.userService.userList = res;
+                // res.forEach((row: User) => {
+                //     console.log(row.username + " " + row.city)
+                // })
+                // console.log(res);
+            },
+            error: (err: HttpErrorResponse) => {
+                console.log(err);
+            }
+        };
+        if (!this.userSearch) {
+            this.userService.getUsers().subscribe(responseObject);
+        } else {
+            
+            this.userService.getUsers(this.userSearch).subscribe(responseObject);
+        }
+    }
+
+    // removeUser(index: number) {
+    //     this.userService.userList.splice(index, 1);
     // }
 
     ngOnDestroy(): void {
-        console.log("The component is being removed");
-        this.userListSubscription.unsubscribe();
+        this.usersHaveChangedSubscription.unsubscribe();
+        console.log("component has been destroyed");
     }
+
+
 }

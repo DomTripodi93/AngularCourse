@@ -1,5 +1,11 @@
-.user-data-grid{
+.user-single-grid {
     display: grid;
     grid-template-columns: 60% 20% 20%;
 }
 
+.user-page-border {
+    border: black 1px solid;
+    background-color: rgb(212, 212, 212);
+    margin: 10px 0px 10px 0px;
+    padding: 10px;
+}

@@ -1,122 +1,113 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { User } from 'src/app/models/User';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { UserService } from 'src/app/services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { User } from 'src/app/models/User.model';
+
+import { UserService } from 'src/app/services/user-service.service';
 
 @Component({
     selector: 'app-user-single',
     templateUrl: './user-single.component.html',
-    styleUrls: [
-        './user-single.component.css',
-        '../users.component.css'
-    ]
+    styleUrls: ['./user-single.component.css']
 })
 export class UserSingleComponent implements OnInit, OnDestroy {
-    // @Input() user: User | null = null;
-    @Input() user: User = { ...this.userServ.emptyUser };
-    // @Input() index: number = -1;
+    // @Input() user: string = "";
+    @Input() addMode: boolean = false;
+    @Input() userIndex: number = -1;
+    userId: number = -1;
+    // @Output() deleteUser: EventEmitter<number> = new EventEmitter<number>();
     editMode: boolean = false;
-    userForEdit: User = { ...this.userServ.emptyUser };
-    customColorLocal: any = {};
-    customColorSubscription: Subscription | null = null;
-    routeParamsSubscription: Subscription | null = null;
-    // @Output() removeUser: EventEmitter<number> = new EventEmitter<number>();
-    singleUser: boolean = false;
+    displayUser: boolean = false;
+    userForEdit: User = { ...this.userService.emptyUser };
+    userForDisplay: User = { ...this.userService.emptyUser };
+    isSingleUser: boolean = false;
+
+    textColor: any = {
+        color: "black"
+    }
+    colorHasChangedSubscription: Subscription = new Subscription();
+    usersHaveChangedSubscription: Subscription = new Subscription();
 
     constructor(
-        public userServ: UserService,
-        private cdRef: ChangeDetectorRef,
-        private activatedRoute: ActivatedRoute
+        public userService: UserService,
+        private route: ActivatedRoute,
+        private router: Router
     ) { }
 
-    ngOnInit() {
-        this.subscribeColorChange();
+    ngOnInit(): void {
+        this.colorHasChangedSubscription = this.userService.colorHasChanged.subscribe((newColor) => {
+            console.log(newColor);
+            this.textColor.color = newColor;
+        })
         this.subscribeParams();
+        this.setUserForDisplay();
     }
 
-    subscribeColorChange() {
-        // this.customColorLocal = this.userServ.customColor;
-        this.updateCustomColorLocal();
-        // this.userServ.customColorHasChanged.subscribe(() => {
-        this.customColorSubscription = this.userServ.customColorHasChanged.subscribe(() => {
-            // this.customColorLocal = this.userServ.customColor;
-            this.updateCustomColorLocal();
-            console.log("Custom color has changed");
-        })
+    goToSingleUser(userId: number) {
+        this.router.navigate(["user", userId])
+        // this.router.navigate(["user/" + userId])
+    }
+
+    goToUserList() {
+        this.router.navigate(["user"])
+    }
+
+    setUserForDisplay() {
+        if (this.userIndex !== -1) {
+            this.userForDisplay = this.userService.userList[this.userIndex];
+            this.displayUser = true;
+        }
     }
 
     subscribeParams() {
-        this.routeParamsSubscription = this.activatedRoute.params.subscribe({
-            next: params => {
-                if (params["userId"]) {
-                    this.singleUser = true;
-                    this.setUser(+params["userId"]);
-                }
+        this.route.params.subscribe(params => {
+            console.log(params["userId"]);
+            if (params["userId"]){
+                this.isSingleUser = true;
+                this.userId = +params["userId"];
+                this.getUserById();
+                this.usersHaveChangedSubscription = this.userService.usersHaveChanged.subscribe(() => {
+                    this.getUserById();
+                })
             }
         })
     }
 
-    setUser(userId: number) {
-        this.userServ.getSingleUser(userId).subscribe(res => {
-            this.user = res;
-        })
-    }
-
-    updateCustomColorLocal() {
-        this.customColorLocal = { color: this.userServ.customColor }
-    }
-
-    // removeUser(index: number){
-    removeUser() {
-        // this.userServ.userList.splice(this.index, 1);
-        if (confirm("Are you sure you want to permanently delete " + this.user.fullName + "?"))
-            this.userServ.deleteUserInAPI(this.user.userId).subscribe(
-                {
-                    next: (res: any) => {
-                        if (+res["deleted"] === this.user.userId) {
-                            this.userServ.userListHasChanged.next();
-                        } else {
-                            console.log(res);
-                        }
-                    },
-                    error: (err) => {
-                        console.log(err);
-                        alert("Failed to delete user! Please try again later!");
+    getUserById() {
+        if (this.userId > 0) {
+            this.userService.getSingleUser(this.userId).subscribe({
+                next: (res) =>{
+                    if (res) {
+                        this.userForDisplay = res;
+                        this.displayUser = true;
                     }
+                },
+                error: (err) =>{ 
+                    console.log(err);
                 }
-            )
+            })
+        }
     }
 
-    // beginEdit() {
-    //     this.editMode = true;
-    // }
-
-    toggleEdit() {
-        this.editMode = !this.editMode;
-        // this.userForEdit = this.user ? this.user.fullName : "";
-        this.userForEdit = { ...this.user };
+    toggleEdit(editMode: boolean, user: User = { ...this.userService.emptyUser }) {
+        this.editMode = editMode;
+        this.userForEdit = { ...user };
+        if (!editMode) {
+            this.userService.usersHaveChanged.next(true);
+        }
     }
 
     submitEdit() {
-        // this.userServ.editUser(this.userForEdit, this.index);
-        this.userServ.editUserInAPI(this.userForEdit).subscribe(
-            {
-                next: (res) => {
-                    // this.userServ.editUser(res, this.index);
-                    this.userServ.userListHasChanged.next();
-                },
-                error: (err) => {
-                    console.log(err);
-                    alert("Failed to update user! Please try again later!");
-                }
-            }
-        );
+        if (this.addMode) {
+            this.userService.addUser(this.userForEdit);
+        } else {
+            this.editMode = false;
+            this.userService.editUser(this.userForEdit);
+        }
     }
 
-    ngOnDestroy() {
-        this.customColorSubscription?.unsubscribe();
-        this.routeParamsSubscription?.unsubscribe();
+    ngOnDestroy(): void {
+        this.colorHasChangedSubscription.unsubscribe();
+        this.usersHaveChangedSubscription.unsubscribe();
     }
-
 }

@@ -1,90 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-
-body{
-    margin: 0;
-}
-
-.heading{
-    width: 100%;
-    background-color: rgb(41, 37, 120);
-    color: white;
-    padding: 10px;
-}
-
-.centered{
-    text-align: center;
-}
-
-.middle{
-    margin: auto;
-}
-
-.grid50{
+.grid50 {
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
-.grid50-dynamic{
+.grid25 {
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 25% 25% 25%;
 }
 
-.float-right {
-    float: right;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-.sticky {
-    position: fixed;
-    top: 0;
-    z-index: 20;
-}
-
-.label-text {
+.bold-text {
     font-weight: 600;
 }
 
-.field-space{
-    margin: 7px 17px 7px 17px;
+.field-space { 
+    margin: 7px 17px 7px 17px
 }
-
-.button-space{
-    margin: 0px 17px 0px 17px;
-}
-
-.input-position{
-    float: right;
-}
-
-.border-box{
-    border: solid black 3px;
-    background-color: rgb(218, 217, 217);
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 7px;
-    margin-top: 7px;
-}
-
-.inner-page-width{
-    width: 70vw;
-    max-width: 800px;
-    min-width: 660px;
-    /* margin: auto; */
-}
-
-
-@media only screen and (max-width: 715px){
-    .inner-page-width{
-        width: 85vw;
-        min-width: 350px;
-    }
-
-    .grid50-dynamic{
-        display: grid;
-        grid-template-columns: 100%;
-    }
-}
-

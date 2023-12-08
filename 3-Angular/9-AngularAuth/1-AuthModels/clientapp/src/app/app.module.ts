@@ -6,21 +6,23 @@ import { UsersComponent } from './users/users.component';
 import { FormsModule } from '@angular/forms';
 import { UserSingleComponent } from './users/user-single/user-single.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRouteModule } from './app-routing.module';
-import { UserListComponent } from './users/user-list/user-list.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     UserSingleComponent,
-    UserListComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRouteModule
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

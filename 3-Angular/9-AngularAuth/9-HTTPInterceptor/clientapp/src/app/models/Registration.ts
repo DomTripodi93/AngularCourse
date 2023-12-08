@@ -1,7 +1,10 @@
-import { Auth } from "./Auth";
-import { User } from "./User";
-
 export interface Registration {
-    auth: Auth;
-    user: User;
+    username: string;
+    password: string;
+    passwordConfirm: string;
+    fullName: string;
+    city: string;
+    gender: string;
+    favoriteColor: string;
+    favoriteAnimal: string;
 }
