@@ -1,0 +1,4 @@
+.user-single-grid {
+    display: grid;
+    grid-template-columns: 60% 20% 20%;
+}

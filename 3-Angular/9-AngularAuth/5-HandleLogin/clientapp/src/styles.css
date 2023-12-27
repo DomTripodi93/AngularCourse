@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+.grid50 {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.grid25 {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+.bold-text {
+    font-weight: 600;
+}
+
+.field-space { 
+    margin: 7px 17px 7px 17px
+}

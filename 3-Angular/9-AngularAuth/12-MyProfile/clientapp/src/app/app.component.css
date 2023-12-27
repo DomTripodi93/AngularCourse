@@ -1,0 +1,37 @@
+.spaced {
+    margin: 15px;
+}
+
+.block-of-color {
+    background-color: blue;
+    width: 300px;
+    height: 300px;
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(236, 236, 236);
+    padding: 10px;
+}
+
+.context-menu {
+    position: absolute;
+    border: black solid 1px;
+    background-color: rgb(221, 255, 213);
+    padding: 10px;
+    width: 100px;
+}
+
+.tooltip-color {
+    background-color: purple;
+    cursor: pointer;
+}
+
+.spaced-left{
+    margin-left: 15px;
+}
+
+.spaced-bottom{
+    margin-bottom: 15px;
+}
