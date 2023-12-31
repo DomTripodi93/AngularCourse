@@ -1,40 +1,37 @@
 import { Component, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Post } from 'src/app/models/Post';
-import { AuthService } from 'src/app/services/auth.service';
-import { PostService } from 'src/app/services/post.service';
+import { Post } from 'src/app/models/Post.model';
+import { AuthService } from 'src/app/services/auth-service.service';
+import { HelperService } from 'src/app/services/helper-service.service';
+import { PostService } from 'src/app/services/post-service.service';
+import { UserService } from 'src/app/services/user-service.service';
 
 @Component({
-  selector: 'app-post-single',
-  templateUrl: './post-single.component.html',
-  styleUrls: ['./post-single.component.css']
+    selector: 'app-post-single',
+    templateUrl: './post-single.component.html',
+    styleUrl: './post-single.component.css'
 })
 export class PostSingleComponent {
-    @Input() post: Post = {...this.postServ.emptyPost};
+    @Input() addMode: boolean = false;
+    @Input() post: Post = { ...this.postService.emptyPost };
+    editMode: boolean = false;
+    postForEdit: Post = { ...this.postService.emptyPost };
 
     constructor(
-        public postServ: PostService,
-        public authServ: AuthService
+        public postService: PostService,
+        public userService: UserService,
+        public helperService: HelperService,
+        public authService: AuthService
     ) { }
 
-    removePost() {
-        if (confirm("Are you sure you want to permanently delete this post?")){
-            this.postServ.deletePostInAPI(this.post.postId).subscribe(
-                {
-                    next: (res: any) => {
-                        if (+res["deleted"] === this.post.postId) {
-                            this.postServ.postListHasChanged.next();
-                        } else {
-                            console.log(res);
-                        }
-                    },
-                    error: (err) => {
-                        console.log(err);
-                        alert("Failed to delete post! Please try again later!");
-                    }
-                }
-            )
-        }
+    toggleEdit(editMode: boolean = false, postForEdit: Post = { ...this.postService.emptyPost }) {
+        this.editMode = editMode;
+        this.postForEdit = {...postForEdit};
+        this.postService.postsHaveChanged.next(true);
     }
+
+    saveEdit() {
+        this.editMode = false;
+        this.postService.upsertPost(this.postForEdit);
+    }
+
 }

@@ -1,0 +1,15 @@
+
+@if(postService.postList.length > 0) {
+    @for (post of postService.postList; track $index) {
+        <div>
+            {{post.postDate}}
+        </div>
+        <div>
+            {{userService.userMapping[post.userId]}}
+        </div>
+    }
+} @else {
+    <div>
+        There are no posts for this user!
+    </div>
+}

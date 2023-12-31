@@ -1,0 +1,200 @@
+@if(isSingleUser) {
+    <button (click)="goToUserList()">
+        Go Back To List
+    </button>
+    @switch (userForDisplay.username) {
+        @case ("pbertelmot0") {
+            This is the first ever user in the app!
+        }
+        @case ("qtregent6") {
+            This is the first user named Quinn in our app!
+        }
+        @default {
+            There is nothing special about this user!
+        }
+    }
+}
+<!-- <div *ngIf="isSingleUser">
+    <button (click)="goToUserList()">
+        Go Back To List
+    </button>
+</div> -->
+<!-- @if(!editMode && !addMode && !displayUser) {
+    <div class="user-page-border"
+        [ngStyle]="textColor">
+        <h4>
+            No user found!
+        </h4>
+    </div>
+} -->
+<!-- <div *ngIf="!editMode && !addMode && !displayUser" class="user-page-border"
+    [ngStyle]="textColor">
+    <h4>
+        No user found!
+    </h4>
+</div> -->
+@if(!editMode && !addMode && displayUser) {
+    <!-- <div (click)="isSingleUser ? null : goToSingleUser(userForDisplay.userId)" 
+        *ngIf="!editMode && !addMode && displayUser" class="user-page-border"
+        [ngStyle]="textColor"> -->
+    <div (click)="isSingleUser ? null : goToSingleUser(userForDisplay.userId)" 
+        class="user-page-border"
+        [ngStyle]="textColor">
+        <div class="grid50">
+            <div class="field-space">
+                <label class="bold-text">
+                    Full Name: 
+                </label>
+                <div>
+                    {{userForDisplay.fullName}}
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    Username: 
+                </label>
+                <div>
+                    {{userForDisplay.username}}
+                </div>
+            </div>
+        </div>
+        @if(isSingleUser) {
+            <!-- <div  *ngIf="isSingleUser" class="grid50"> -->
+            <div class="grid50">
+                <div class="field-space">
+                    <label class="bold-text">
+                        City: 
+                    </label>
+                    <div>
+                        {{userForDisplay.city}}
+                    </div>
+                </div>
+                <div class="field-space">
+                    <label class="bold-text">
+                        Favorite Animal: 
+                    </label>
+                    <div>
+                        {{userForDisplay.favoriteAnimal}}
+                    </div>
+                </div>
+                <div class="field-space">
+                    <label class="bold-text">
+                        Favorite Color: 
+                    </label>
+                    <div>
+                        {{userForDisplay.favoriteColor}}
+                    </div>
+                </div>
+                <div class="field-space">
+                    <label class="bold-text">
+                        Gender: 
+                    </label>
+                    <div>
+                        {{userForDisplay.gender}}
+                    </div>
+                </div>
+            </div>
+            <!-- <div  *ngIf="isSingleUser" class="grid50"> -->
+            @if(userForDisplay.userId === authService.userId) {
+                <div class="grid50">
+                    <div></div>
+                    <div class="grid50">
+                        <button class="field-space" (click)="userService.removeUser(userForDisplay.userId)">
+                            Delete
+                        </button>
+                        <button class="field-space" (click)="toggleEdit(true, userForDisplay)">
+                            Edit
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+    
+    </div>
+} @else if(editMode || addMode) {
+
+    <!-- <form *ngIf="editMode || addMode" class="user-page-border" (ngSubmit)="submitEdit()"
+        [ngStyle]="textColor"> -->
+    <form class="user-page-border" (ngSubmit)="submitEdit()"
+        [ngStyle]="textColor">
+        <div class="grid50">
+            <div class="field-space">
+                <label class="bold-text">
+                    Full Name: 
+                </label>
+                <div>
+                    <input name="fullName" [(ngModel)]="userForEdit.fullName"/>
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    Username: 
+                </label>
+                <div>
+                    <input name="username" [(ngModel)]="userForEdit.username"/>
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    City: 
+                </label>
+                <div>
+                    <input name="city" [(ngModel)]="userForEdit.city"/>
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    Favorite Animal: 
+                </label>
+                <div>
+                    <input name="favoriteAnimal" [(ngModel)]="userForEdit.favoriteAnimal"/>
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    Favorite Color: 
+                </label>
+                <div>
+                    <input name="favoriteColor" [(ngModel)]="userForEdit.favoriteColor"/>
+                </div>
+            </div>
+            <div class="field-space">
+                <label class="bold-text">
+                    Gender: 
+                </label>
+                <div>
+                    <input name="gender" [(ngModel)]="userForEdit.gender"/>
+                </div>
+            </div>
+    
+        </div>
+    
+        <div class="grid50">
+            <div></div>
+            <div class="grid50">
+                <button class="field-space" type="button" (click)="toggleEdit(false)">
+                    Cancel
+                </button>
+                <button class="field-space" type="submit">
+                    <!-- (click)="submitEdit()"> -->
+                    Save
+                </button>
+            </div>
+        </div>
+    </form>
+} @else {
+    <div class="user-page-border"
+        [ngStyle]="textColor">
+        <h4>
+            No user found!
+        </h4>
+    </div>
+}
+
+
+
+
+@if(isSingleUser) {
+    <app-posts
+        [userId]="userId"></app-posts>
+}

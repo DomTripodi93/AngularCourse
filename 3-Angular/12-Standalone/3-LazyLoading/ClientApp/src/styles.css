@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+.space-left {
+    margin-left: 15px;
+}
+
+.page {
+    margin: auto;
+    width: 75%;
+}

@@ -1,0 +1,10 @@
+<h2>
+    Projects:
+</h2>
+<ol>
+    @for (project of projectService.projectList; track $index) {
+        <li>
+            {{project}}
+        </li>
+    }
+</ol>

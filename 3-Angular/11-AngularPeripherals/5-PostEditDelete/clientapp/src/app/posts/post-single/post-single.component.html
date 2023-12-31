@@ -1,0 +1,72 @@
+
+<div
+    class="user-page-border">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                {{userService.userMapping[post.userId]}}
+            </div>
+        </div>
+        <div class="grid50">
+            <div class="field-space">
+                <label class="bold-text">
+                    Post Date: 
+                </label>
+                <div>
+                    {{helperService.setDateForDisplay(post.postDate)}}
+                </div>
+            </div>
+            @if(post.updateDate !== post.postDate) {
+                <div class="field-space">
+                    <label class="bold-text">
+                        Update Date: 
+                    </label>
+                    <div>
+                        {{helperService.setDateForDisplay(post.updateDate)}}
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="field-space">
+        @if(!editMode) {
+            <div>
+                {{post.postContent}}
+            </div>
+        } @else {
+            <form (onSubmit)="saveEdit()">
+                <textarea name="postContent" 
+                    class="text-area-default"
+                    [(ngModel)]="postForEdit.postContent"></textarea>
+            </form>
+        }
+    </div>
+    @if(post.userId === authService.userId && !editMode) {
+        <div class="grid50">
+            <div></div>
+            <div class="grid50">
+                <button class="field-space" (click)="postService.removePost(post.postId)">
+                    Delete
+                </button>
+                <button class="field-space" (click)="toggleEdit(true, post)">
+                    Edit
+                </button>
+            </div>
+        </div>
+    } @else if (editMode) {
+        <div class="grid50">
+            <div></div>
+            <div class="grid50">
+                <button class="field-space" (click)="toggleEdit(false)">
+                    Cancel
+                </button>
+                <button class="field-space" (click)="saveEdit()">
+                    Save
+                </button>
+            </div>
+        </div>
+    }
+</div>

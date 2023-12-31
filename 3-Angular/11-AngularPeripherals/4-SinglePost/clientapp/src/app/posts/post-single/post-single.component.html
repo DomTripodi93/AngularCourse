@@ -1,0 +1,39 @@
+
+<div
+    class="user-page-border">
+    <div class="grid50">
+        <div class="field-space">
+            <label class="bold-text">
+                Username: 
+            </label>
+            <div>
+                {{userService.userMapping[post.userId]}}
+            </div>
+        </div>
+        <div class="grid50">
+            <div class="field-space">
+                <label class="bold-text">
+                    Post Date: 
+                </label>
+                <div>
+                    {{helperService.setDateForDisplay(post.postDate)}}
+                </div>
+            </div>
+            @if(post.updateDate !== post.postDate) {
+                <div class="field-space">
+                    <label class="bold-text">
+                        Update Date: 
+                    </label>
+                    <div>
+                        {{helperService.setDateForDisplay(post.updateDate)}}
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="field-space">
+        <div>
+            {{post.postContent}}
+        </div>
+    </div>
+</div>
