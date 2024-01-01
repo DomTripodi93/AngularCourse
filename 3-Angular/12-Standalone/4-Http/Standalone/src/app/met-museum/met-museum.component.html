@@ -1,0 +1,31 @@
+
+
+<h3>
+    Museum Art:
+</h3>
+
+@for(art of worksOfArt; track $index) {
+    <div class="work-of-art centered">
+        @if(art["artistDisplayName"]) {
+            <div>
+                {{art["artistRole"]}} : {{art["artistDisplayName"]}}
+            </div>
+        }
+    
+        @if(art["title"]) {
+            <div>
+                Title: {{art["title"]}}
+            </div>
+        }
+        <div>
+            <a [href]="art['objectURL']">Learn More</a>
+        </div>
+    
+        <div>
+            @if(art["primaryImage"]) {
+                <img class="image-box" [src]="art['primaryImage']"/>
+            }
+        </div>
+    </div>
+
+}

@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+
+.page{
+    max-width: 75%;
+}
+
+.spaced-left{
+    margin-left: 15px;
+}
+
+.middle {
+    margin: auto;
+}
+
+.centered {
+    text-align: center;
+}

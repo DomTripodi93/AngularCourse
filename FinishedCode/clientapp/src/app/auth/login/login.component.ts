@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Auth } from 'src/app/models/Auth';
-import { TokenResponse } from 'src/app/models/TokenResponse';
-import { AuthService } from 'src/app/services/auth.service';
+import { Login } from 'src/app/models/Login.model';
+import { TokenResponse } from 'src/app/models/TokenResponse.model';
+import { AuthService } from 'src/app/services/auth-service.service';
 
 @Component({
     selector: 'app-login',
@@ -10,33 +10,30 @@ import { AuthService } from 'src/app/services/auth.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-    userForLogin: Auth = { ...this.authServ.emptyAuth }
+    login: Login = { ...this.authServ.emptyLogin }
 
     constructor(
-        private authServ: AuthService,
-        private router: Router
+        public router: Router,
+        public authServ: AuthService
     ) { }
 
-    submitLogin() {
-        this.authServ.postLogin(this.userForLogin).subscribe(
-            {
-                next: (res: TokenResponse) => {
-                    console.log(res)
-                    console.log("Login Successful!")
-                    // this.authServ.isAuthenticated = true;
-                    this.authServ.storeTokenInfo(res.token)
-                    this.router.navigate(["list"])
-                },
-                error: (err) =>{
-                    console.log(err);
-                    alert("Invalid credentials!")
-                }
-            }
-        )
+    goToRegistration(event: Event) {
+        event.preventDefault();
+        this.router.navigate(["register"])
     }
 
-    goToRegister() {
-        this.router.navigate(["register"])
+    submitLogin() {
+        this.authServ.postLogin(this.login).subscribe({
+            next: (res: TokenResponse) => {
+                // console.log(res);
+                this.authServ.handleLogin(res.token).then(() => {
+                    this.router.navigate(["user"]);
+                });
+            },
+            error: (err: any) => {
+                console.log(err);
+            }
+        })
     }
 
 }

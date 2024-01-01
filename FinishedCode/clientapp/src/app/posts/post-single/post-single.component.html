@@ -1,52 +1,75 @@
-<div *ngIf="!(postServ.editMode && postServ.postForEdit.postId === post.postId)" 
-    class = "inner-page-width border-box">
-    <div>
-        <div class="field-space flex">
-            <label class="label-text">
-                Username:
-            </label>
-            <div class="float-right">
-                {{post.username}}
+
+<div
+    class="user-page-border">
+    @if(!addMode) {
+        <div class="grid50">
+            <div class="field-space">
+                <label class="bold-text">
+                    Username: 
+                </label>
+                <div>
+                    {{userService.userMapping[post.userId]}}
+                </div>
+            </div>
+            <div class="grid50">
+                <div class="field-space">
+                    <label class="bold-text">
+                        Post Date: 
+                    </label>
+                    <div>
+                        {{helperService.setDateForDisplay(post.postDate)}}
+                    </div>
+                </div>
+                @if(post.updateDate !== post.postDate) {
+                    <div class="field-space">
+                        <label class="bold-text">
+                            Update Date: 
+                        </label>
+                        <div>
+                            {{helperService.setDateForDisplay(post.updateDate)}}
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-        <hr/>
-        <div class="field-space">
-            <div class="show-white-space">
+    }
+    <div class="field-space">
+        @if(!editMode && !addMode) {
+            <div class="multi-line">
                 {{post.postContent}}
             </div>
-        </div>
+        } @else {
+            <form (onSubmit)="saveEdit()">
+                <textarea name="postContent" 
+                    class="text-area-default"
+                    (keyup)="$event.key === 'Enter' && !$event.shiftKey ? saveEdit() : null"
+                    [(ngModel)]="postForEdit.postContent"></textarea>
+            </form>
+        }
     </div>
-    <hr/>
-    <div class="grid50-dynamic">
-        <div class="field-space">
-            <label class="label-text">
-                Posted On:
-            </label>
-            <div class="float-right">
-                {{post.postDate | date:'yyyy-MM-dd'}} @ {{post.postDate | date:'shortTime'}}
+    @if(post.userId === authService.userId && !editMode && !addMode) {
+        <div class="grid50">
+            <div></div>
+            <div class="grid50">
+                <button class="field-space" (click)="postService.removePost(post.postId)">
+                    Delete
+                </button>
+                <button class="field-space" (click)="toggleEdit(true, post)">
+                    Edit
+                </button>
             </div>
         </div>
-        <div class="field-space">
-            <label class="label-text">
-                Last Updated:
-            </label>
-            <div class="float-right">
-                {{post.updateDate | date:'yyyy-MM-dd'}} @ {{post.updateDate | date:'shortTime'}}
+    } @else if (editMode || addMode) {
+        <div class="grid50">
+            <div></div>
+            <div class="grid50">
+                <button class="field-space" (click)="toggleEdit(false)">
+                    Cancel
+                </button>
+                <button class="field-space" (click)="saveEdit()">
+                    Save
+                </button>
             </div>
         </div>
-    </div>
-    <div class="grid50-dynamic">
-        <div></div>
-        <div *ngIf="authServ.username === post.username" class="grid50">
-            <button class="button-space" (click)="removePost()">
-                Remove
-            </button>
-            <button class="button-space" (click)="postServ.toggleEdit(post)">
-                Edit
-            </button>
-        </div>
-    </div>
-</div>
-<div *ngIf="postServ.editMode && postServ.postForEdit.postId === post.postId" >
-    <app-post-edit></app-post-edit>
+    }
 </div>

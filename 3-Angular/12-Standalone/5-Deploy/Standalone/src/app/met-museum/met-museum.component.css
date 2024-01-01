@@ -1,0 +1,13 @@
+.work-of-art{
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    background-color: aqua;
+    margin: 15px;
+}
+
+.image-box {
+    margin: auto;
+    max-width: 70vw;
+    max-height: 70vh;
+}

@@ -1,113 +1,159 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { UserService } from './services/user.service';
-import { Title } from '@angular/platform-browser';
+import { UserService } from './services/user-service.service';
+import { AuthService } from './services/auth-service.service';
+import { TokenResponse } from './models/TokenResponse.model';
 import { Router } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { User } from './models/User.model';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-    title: string = 'Social App';
-    someValue: number = 12;
+export class AppComponent implements OnInit{
+    willShowUsers: boolean = true;
+
+    title = 'ClientApp';
+    helloWorld: string = "Hello World";
+    //string interpolation
     clicked: number = 0;
     doubleClicked: number = 0;
-    valuesToIterate: number[] = [4, 5, 1, 3, 12]
-    contextMenuOptions: any = {
-        showMenu: false,
-        menuX: 0,
-        menuY: 0
+
+    // willShowBlock: boolean = true;
+    willShowBlock: boolean = false;
+
+    contextMenuInfo: any = {
+        pageX: 0,
+        pageY: 0,
+        willShow: false
     }
-    contextClick: boolean = false;
-    toolTipOptions: any = {
-        showToolTip: false,
-        menuX: 0,
-        menuY: 0
+
+    tooltipInfo: any = {
+        pageX: 0,
+        pageY: 0,
+        willShow: false
     }
-    showUsers: boolean = true;
+
+    contextClicked: boolean = false;
+
+    valuesToLoopThrough: number[] = [
+        4, 
+        2,
+        5,
+        8
+    ];
+
+    textColorForChange: string = "purple";
 
     constructor(
-        public userServ: UserService,
-        private titleServ: Title,
-        private router: Router,
-        public authServ: AuthService
-    ) { }
+        public userService: UserService,
+        public authService: AuthService,
+        private router: Router
+    ) {}
 
-    ngOnInit() {
-        this.titleServ.setTitle(this.title);
+    ngOnInit(): void {
         this.checkAuth();
+        this.subscribeAuthHasChanged();
     }
 
-    checkAuth() {
+    subscribeAuthHasChanged() {
+        this.authService.authHasChanged.subscribe(() => {
+            this.getUsersForMap();
+        })
+    }
+
+    getUsersForMap() {
+        this.userService.getUsers().subscribe({
+            next: (res: User[]) =>{
+                this.userService.userMapping = {};
+                res.forEach((row, i) =>{
+                    this.userService.userMapping[row.userId] = row.username;
+                    // if (i === res.length - 1) {
+                    //     console.log(this.userService.userMapping);
+                    // }
+                })
+            }
+        })
+    }
+
+    goToMyProfile() {
+        this.router.navigate(["user/" + this.authService.userId])
+    }
+
+    goToPosts() {
+        this.router.navigate(["posts"])
+    }
+
+    goToUsers() {
+        this.router.navigate(["user"])
+    }
+
+    checkAuth(){
         let token = localStorage.getItem("token");
-        console.log(token)
         if (token) {
-            this.authServ.storeTokenInfo(token);
-            this.authServ.updateToken();
+            this.authService.isAuthenticated = true;
+            this.authService.token = token;
+            this.authService.getRefreshToken().subscribe({
+                next: (res: TokenResponse) =>{
+                    this.authService.handleLogin(res.token);
+                },
+                error: (err) =>{
+                    console.log(err);
+                    this.authService.logout();
+                }
+            })
         }
     }
 
-    // clickMethod() {
-    clickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("clicked")
+    triggerColorChange() {
+        this.userService.colorHasChanged.next(this.textColorForChange);
+    }
+
+    incrementClicked() {
         this.clicked += 1;
     }
 
-    // doubleClickMethod() {
-    doubleClickMethod(event: MouseEvent) {
-        console.log(event);
-        console.log("double clicked")
+    incrementDoubleClicked() {
         this.doubleClicked += 1;
     }
 
-    rightClickMethod(event: MouseEvent) {
-        console.log(event);
-        event.preventDefault();
-        this.contextMenuOptions.menuX = event.clientX;
-        this.contextMenuOptions.menuY = event.clientY;
-        this.contextMenuOptions.showMenu = true;
+    toggleContextMenu(showContextMenu: boolean, event: MouseEvent | null = null) {
+        // console.log(event);
+        if (event !== null) {
+            event.preventDefault();
+            this.contextMenuInfo.pageX = event.pageX
+            this.contextMenuInfo.pageY = event.pageY
+        }
+        this.contextMenuInfo.willShow = showContextMenu;
     }
 
-    toggleShowUsers() {
-        this.showUsers = !this.showUsers;
-    }
-
-    @HostListener('document:click')
-    hideContextMenu() {
-        // console.log("hit")
+    @HostListener("document:click")
+    closeContextMenu(){
         setTimeout(() => {
-            if (!this.contextClick) {
-                this.contextMenuOptions.showMenu = false;
+            if (!this.contextClicked){
+                this.toggleContextMenu(false);
             }
         }, 10)
     }
 
-    onContextClick() {
-        if (!this.contextClick) {
-            this.contextClick = true;
-            setTimeout(() => {
-                this.contextClick = false;
-            }, 20)
+    contextClick() {
+        this.contextClicked = true;
+        setTimeout(() => {
+            this.contextClicked = false;
+        }, 20)
+    }
+
+    onMouseMove(inside: boolean, event: MouseEvent) {
+        if (this.tooltipInfo.willShow !== inside) {
+            this.tooltipInfo.willShow = inside;
         }
-    }
-
-    onMouseMove(event: MouseEvent, over: boolean) {
+        this.tooltipInfo.pageX = event.pageX - 50;
+        this.tooltipInfo.pageY = event.pageY + 15;
         // console.log(event);
-        this.toolTipOptions.showToolTip = over;
-        // this.toolTipOptions.menuX = event.clientX;
-        // this.toolTipOptions.menuY = event.clientY;
-        this.toolTipOptions.menuX = event.clientX - 55;
-        this.toolTipOptions.menuY = event.clientY + 15;
     }
 
-    updateCustomColor(){
-        this.userServ.customColorHasChanged.next();
+    setShowUsers(showUsers: boolean) {
+        this.willShowUsers = showUsers;
     }
 
-    navigateTo(route: string) {
-        this.router.navigate([route])
-    }
 }

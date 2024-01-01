@@ -1,101 +1,94 @@
-<div class="heading sticky">
-    <div class="header-grid">
-        <div>
-            {{title}}
-        </div>
-        <div *ngIf="authServ.isAuthenticated" class="pointer" (click)="navigateTo('list')">
-            List View
-        </div>
-        <div *ngIf="authServ.isAuthenticated" class="pointer" (click)="navigateTo('')">
-            Tile View
-        </div>
-        <div *ngIf="authServ.isAuthenticated" class="pointer" (click)="navigateTo('posts')">
-            Posts
-        </div>
-        <div *ngIf="authServ.isAuthenticated" class="pointer" (click)="navigateTo('list/' + authServ.userId)">
-            {{authServ.fullName}}
-            <!-- {{authServ.username}} -->
-        </div>
-    </div>
-    <div class="flex-separator"></div>
-    <div class="float-right user-heading">
-        <div *ngIf="authServ.isAuthenticated" class="pointer" (click)="authServ.logout()">
-            Logout
-        </div>  
+
+
+<!-- <div class="spaced">
+    helloWorld
+    <br/>
+    {{helloWorld + " - " + title}}
+</div>
+
+<div class="spaced">
+    <button (click)="incrementClicked()">
+        Click Me
+    </button>
+    <br/>
+    The button was clicked {{clicked}} times.
+    <br/>
+    <input [(ngModel)]="clicked" type="number"/>
+    <div class="spaced" *ngIf="clicked > 5">
+        You have clicked more than 5 times
     </div>
 </div>
-<!-- <div (click)="hideContextMenu()" class="page"> -->
-<div class="page">
+
+<div class="spaced">
+    <button (dblclick)="incrementDoubleClicked()">
+        Double Click Me
+    </button>
     <br/>
+    The button was double clicked {{doubleClicked}} times.
+</div>
 
-    <!-- <button (click)="clickMethod($event)">
-        Click Me!
-    </button>
-    
-    Clicked {{clicked}} times!
+<div class="spaced" *ngIf="willShowBlock">
+    This is the conditionally displayed block
+</div>
 
-    <input [(ngModel)]="clicked" type="number"/>
-    <br/>
-    
-    <button (dblclick)="doubleClickMethod($event)">
-        Double Click Me!
-    </button>
-    
-    Double-clicked {{doubleClicked}} times!
-    
-    <div *ngIf="someValue > 12">
-        Show This text
+<div class="spaced">
+    <div *ngFor="let number of valuesToLoopThrough; let indexOut = index">
+        Boilerplate, this is one of the numbers
+        <br/>
+        {{number}}, {{indexOut}}
     </div>
+</div>
 
-    
-    <div *ngIf="clicked > 5">
-        Clicked more than 5 times!
-    </div>
-    
-    <div *ngFor="let value of valuesToIterate; let index = index">
-        {{value}}, {{index}}
-    </div>
-    
-    
-    <button #contextMenuButton 
-        id="contextMenuButton" 
-        (contextmenu)="rightClickMethod($event)">
-        Right Click Me!
-    </button>
-    
-    <div *ngIf="contextMenuOptions.showMenu" 
-        class="context-menu"
-        [style.left.px]="contextMenuOptions.menuX"
-        [style.top.px]="contextMenuOptions.menuY"
-        (click)="onContextClick()">
-        Here is the context menu
-    </div>
+<div class="block-of-color"
+     [ngClass]="tooltipInfo.willShow ? 'tooltip-color' : ''"
+     (contextmenu)="toggleContextMenu(true, $event)"
+     (mouseenter)="onMouseMove(true, $event)"
+     (mouseleave)="onMouseMove(false, $event)"
+     (mousemove)="onMouseMove(true, $event)">
+</div>
 
+<div *ngIf="contextMenuInfo.willShow" 
+    class="context-menu"
+    [style.left.px]="contextMenuInfo.pageX"
+    [style.top.px]="contextMenuInfo.pageY"
+    (click)="contextClick()">
+    This is the context menu
+</div>
 
-    <div [ngClass]="clicked > 5 ? 'mouse-over-block-active' : 'mouse-over-block' "
-        (mouseenter)="onMouseMove($event, true)" 
-        (mouseleave)="onMouseMove($event, false)"
-        (mousemove)="onMouseMove($event, true)">
-    </div>
+<div *ngIf="tooltipInfo.willShow" 
+    class="context-menu"
+    [style.left.px]="tooltipInfo.pageX"
+    [style.top.px]="tooltipInfo.pageY">
+    This is the tooltop
+</div> -->
+<!-- <button (click)="setShowUsers(!willShowUsers)">Toggle Show Users</button>
+<br/> -->
 
-    <div *ngIf="toolTipOptions.showToolTip"
-        class="context-menu"
-        [style.left.px]="toolTipOptions.menuX"
-        [style.top.px]="toolTipOptions.menuY">
-        Here is the tooltip
-    </div>
-    <br/> -->
-    <!-- <button (click)="toggleShowUsers()">
-        {{showUsers ? "Hide" : "Show"}} Users
-    </button>
-    <br/> -->
-    <!-- <input [(ngModel)]="userServ.customColor" type="color"/> 
-    <button (click)="updateCustomColor()">
-        Update Color
-    </button> -->
-    <!-- <br/> -->
-    <!-- <div *ngIf="showUsers">
-        <app-users></app-users>
-    </div> -->
+<!-- <input [(ngModel)]="textColorForChange" type="color" /><button (click)="triggerColorChange()">Change Color</button> -->
+<!-- <div class="spaced" *ngIf="willShowUsers">
+    <app-users></app-users>
+</div> -->
+
+<div class="spaced">
+    @if (authService.isAuthenticated) {
+        <div class="spaced-bottom">
+            <button 
+                (click)="authService.logout()">
+                Log Out
+            </button>
+            <button class="spaced-left"
+                (click)="goToMyProfile()">
+                My Profile
+            </button>
+            <button class="spaced-left"
+                (click)="goToPosts()">
+                Posts
+            </button>
+            <button class="spaced-left"
+                (click)="goToUsers()">
+                Users
+            </button>
+        </div>
+    }
     <router-outlet></router-outlet>
 </div>
